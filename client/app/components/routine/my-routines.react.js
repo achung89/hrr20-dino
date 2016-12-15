@@ -9,7 +9,7 @@ import Divider from 'material-ui/Divider';
 import IconButton from 'material-ui/IconButton';
 import Checkbox from 'material-ui/Checkbox';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
-import { Link } from 'react-router';
+import {Link} from 'react-router';
 
 import data from '../../utils/api-utils';
 
@@ -52,7 +52,6 @@ export default class MyRoutines extends React.Component {
   getRoutineData() {
     data.getRoutines((err, data) => {
       if (err) console.log(err);
-      // console.log('getRoutineData', data);
       this.setState({
         routines: data
       });
@@ -60,13 +59,9 @@ export default class MyRoutines extends React.Component {
   }
 
   getTaskData() {
-    TaskStore
-      .get()
-      .then((data) => {
-        this.setState({
-          tasks: data.collection
-        });
-      });
+    TaskStore.get().then((data) => {
+      this.setState({tasks: data.collection});
+    });
   }
 
   findTasksForRoutine(routine) {
@@ -91,27 +86,50 @@ export default class MyRoutines extends React.Component {
 
     return (
       <div>
-        <MyRoutinesNav />
-        {this.state.routines.map((routine, i) => {
+        <MyRoutinesNav/> {this.state.routines.map((routine) => {
           return (
             <Paper key={routine._id} style={paperStyle} zDepth={4}>
               {/* insert onTapTouch for FlatButton */}
-              <AppBar
-                title={routine.name}
-                titleStyle={{fontSize: 18}}
-                iconElementLeft={ <IconButton onClick={this.handleRemoveRoutine.bind(this, routine._id)}>
-                                    <NavigationClose />
-                                  </IconButton> }
-                iconElementRight={ <Link params={{ name: routine.name }} to={`/routines/${routine.name}`}><IconButton><Launch /></IconButton></Link> }
-              />
+              <AppBar title={routine.name} titleStyle={{
+                fontSize: 18
+              }} iconElementLeft={< IconButton onClick = {
+                this.handleRemoveRoutine.bind(this, routine._id)
+              } > <NavigationClose/> < /IconButton>} iconElementRight={< Link params = {{ name: routine.name }}to = {
+                `/routines/${routine.name}`
+              } > <IconButton><Launch/></IconButton> < /Link>}/>
+              <div className="day-quickview text-justify">
+                <span className={routine.repeat['sunday']
+                  ? 'day-view-on'
+                  : 'day-view-off'}>SUN </span>
+                <span className={routine.repeat['monday']
+                  ? 'day-view-on'
+                  : 'day-view-off'}>MON </span>
+                <span className={routine.repeat['tuesday']
+                  ? 'day-view-on'
+                  : 'day-view-off'}>TUE </span>
+                <span className={routine.repeat['wednesday']
+                  ? 'day-view-on'
+                  : 'day-view-off'}>WED </span>
+                <span className={routine.repeat['thursday']
+                  ? 'day-view-on'
+                  : 'day-view-off'}>THUR </span>
+                <span className={routine.repeat['friday']
+                  ? 'day-view-on'
+                  : 'day-view-off'}>FRI </span>
+                <span className={routine.repeat['saturday']
+                  ? 'day-view-on'
+                  : 'day-view-off'}>SAT </span>
+              </div>
               <List>
 
                 {/* for each task in routine */}
                 {routine.tasks.map((task, k) => {
                   return (
                     <div key={k}>
-                      {/* create Task */}
-                      <Task primaryText={task} routine={routine} task={task}/>
+                      <Divider/> {/* insert onTapTouch for ListItem */}
+                      <ListItem primaryText={task} rightIcon={< Link params = {{ name: routine.name }}to = {
+                        `/tasks/${task.name}`
+                      } > <Launch/> < /Link>}></ListItem>
                     </div>
                   );
                 })}
