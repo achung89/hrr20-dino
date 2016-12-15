@@ -10,7 +10,7 @@ import Checkbox from 'material-ui/Checkbox';
 import RoutineStore from '../../flux/stores/routine-store';
 import TaskStore from '../../flux/stores/task-store';
 import MyRoutines from './my-routines.react.js';
-
+import InlineEdit from 'react-edit-inline';
 RoutineStore.useMockData();
 TaskStore.useMockData();
 
@@ -19,7 +19,8 @@ export default class Routine extends React.Component {
     super(props);
     this.state = {
       routines: [],
-      tasks: []
+      tasks: [],
+      routineName: this.props.params.id
     };
   }
 
@@ -68,6 +69,13 @@ export default class Routine extends React.Component {
     });
   }
 
+  changeRoutine(data) {
+    this.setState({
+      routineName:data.undefined
+    });
+    console.log(this.state.routineName);
+  }
+
   render() {
     const paperStyle = {
       height: 600,
@@ -97,12 +105,16 @@ export default class Routine extends React.Component {
                   <List>
                     {/* for each task in routine */}
                     {/* add specific task name within primaryText */}
+                    <InlineEdit
+                      text = {this.state.routineName}
+                      change = {this.changeRoutine}
+                    />
                     {this.findTasksForRoutine(routine).map((task) => {
                       return (
                         <div key={task.id}>
                           <Divider />
-                          <ListItem primaryText={task.name} leftCheckbox={<Checkbox />} >
-                          </ListItem>
+                          <InlineEdit text={task.name} leftCheckbox={<Checkbox />} >
+                          </InlineEdit>
                         </div>
                       );
                     })}
