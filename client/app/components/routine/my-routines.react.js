@@ -73,6 +73,17 @@ export default class MyRoutines extends React.Component {
     RoutineActions.remove(id);
   }
 
+handleTaskLineThrough(e) {
+  console.log(this.props, this, e); //this = myRoutines
+  // this.props.style={{textDecoration: 'none'}}
+  // toggle ListItem's style prop between {textDecoration: 'none'} and {textDecoration: 'line-through'}
+    // if(target.style.textDecoration === 'none') {
+    // target.style.textDecoration = 'line-through'
+    // } else {
+    // target.style.textDecoration = 'none'
+    // }
+}
+
   render() {
     const paperStyle = {
       float: 'left',
@@ -107,8 +118,9 @@ export default class MyRoutines extends React.Component {
                       {/* insert onTapTouch for ListItem */}
                       <ListItem
                         primaryText={task.name}
-                        style={{textDecoration: 'line-through', textDecorationStyle: 'solid'}}
-                        leftCheckbox={<Checkbox />}
+                        style={{textDecoration: 'line-through'}}
+                        leftCheckbox={<Checkbox/>}
+                        onChange={this.handleTaskLineThrough.bind(this)}
                         rightIcon={<Link params={{ name: routine.name }} to={`/tasks/${task.name}`}><Launch /></Link>}
                       >
                       </ListItem>
