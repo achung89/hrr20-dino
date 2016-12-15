@@ -9,6 +9,7 @@ import Divider from 'material-ui/Divider';
 import IconButton from 'material-ui/IconButton';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import { Link } from 'react-router';
+import Checkbox from 'material-ui/Checkbox';
 
 import data from '../../utils/api-utils';
 
@@ -111,7 +112,9 @@ export default class MyRoutines extends React.Component {
                       {/* insert onTapTouch for ListItem */}
                       <ListItem
                         primaryText={task}
-                        rightIcon={<Link params={{ name: routine.name }} to={`/tasks/${task.name}`}><Launch /></Link>}
+                        style={{textDecoration: 'line-through', textDecorationStyle: 'solid'}}
+                        leftCheckbox={<Checkbox />}
+                        rightIcon={<Link params={{ name: routine.name }} to={`/tasks/${task}`}><Launch /></Link>}
                       >
                       </ListItem>
                     </div>
