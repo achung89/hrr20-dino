@@ -26,7 +26,7 @@ module.exports = function(app, express) {
   //   .get(routineController.getMyRoutines)
   //   .post(routineController.addRoutine);
 
-  router.route('/routines/:userId')
+  router.route('/routines')
     .get(routineController.getMyRoutines)
     .post(routineController.addARoutine);
 

@@ -2,7 +2,7 @@ var Sequelize = require('sequelize');
 
 //#######################__Create Connection__##############################
 
-var db_connection = new Sequelize('app_data', 'dino', '', {
+var db_connection = new Sequelize(process.env.POSTGRESQL_LOCAL_DB, '', '', {
   host: 'localhost',
   dialect: 'postgres',
   port: 5432
@@ -58,7 +58,3 @@ module.exports = {
   Task: Task,
   History: History
 }
-
-
-
-

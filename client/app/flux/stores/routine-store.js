@@ -11,11 +11,21 @@ class RoutineStore extends Store {
     super({
       storeName: 'routines'
     });
+    this.getData = this.getData.bind(this);
   }
+
+  getData() {
+    console.log("getData in Routinestore");
+    $.get('/routines', 'utf8', (data, err)=>{
+      this.data.collection = data;
+
+    })
+  };
 }
 
 let that = new RoutineStore();
 
+//maybe add get in here somehow?
 that.dispatchToken = AppDispatcher.register(action => {
   switch (action.actionType) {
     case RoutineConstants.ADD_ROUTINE:

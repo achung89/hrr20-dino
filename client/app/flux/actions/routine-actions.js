@@ -22,5 +22,12 @@ export default {
       id: data.id,
       newData: data.newData
     });
-  }
+  },
+
+  get(data) {
+    AppDispatcher.dispatch({
+      actionType: RoutineConstants.GET_ROUTINE,
+      data: data
+    });
+  },
 };

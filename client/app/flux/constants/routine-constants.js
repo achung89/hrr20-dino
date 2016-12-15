@@ -6,6 +6,8 @@ export default keyMirror({
 
   REMOVE_ROUTINE: null,
 
-  UPDATE_ROUTINE: null
+  UPDATE_ROUTINE: null,
+
+  GET_ROUTINE: null
 
 });

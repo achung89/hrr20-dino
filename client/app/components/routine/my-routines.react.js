@@ -10,14 +10,16 @@ import IconButton from 'material-ui/IconButton';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import { Link } from 'react-router';
 
+import data from '../../utils/api-utils';
+
 // flux
-import RoutineStore from '../../flux/stores/routine-store';
-import TaskStore from '../../flux/stores/task-store';
-import RoutineActions from '../../flux/actions/routine-actions';
+// import RoutineStore from '../../flux/stores/routine-store';
+// import TaskStore from '../../flux/stores/task-store';
+// import RoutineActions from '../../flux/actions/routine-actions';
 
-
-RoutineStore.useMockData();
-TaskStore.useMockData();
+//
+// RoutineStore.useMockData();
+// TaskStore.useMockData();
 
 export default class MyRoutines extends React.Component {
   constructor(props) {
@@ -30,26 +32,28 @@ export default class MyRoutines extends React.Component {
   }
 
   componentDidMount() {
+    // RoutineStore.getData();
     this.getRoutineData();
-    this.getTaskData();
-
-    RoutineStore.addChangeListener(this.getRoutineData.bind(this));
-    TaskStore.addChangeListener(this.getTaskData.bind(this));
+    // this.getTaskData();
+    // this.forceUpdate();
+    //
+    // RoutineStore.addChangeListener(this.getRoutineData.bind(this));
+    // TaskStore.addChangeListener(this.getTaskData.bind(this));
   }
 
   componentWillUnmount() {
-    RoutineStore.removeChangeListener(this.getRoutineData);
-    TaskStore.removeChangeListener(this.getTaskData);
+    // RoutineStore.removeChangeListener(this.getRoutineData);
+    // TaskStore.removeChangeListener(this.getTaskData);
   }
 
   getRoutineData() {
-    RoutineStore
-      .get()
-      .then((data) => {
-        this.setState({
-          routines: data.collection
-        });
+    data.getRoutines((err, data) => {
+      if (err) console.log(err);
+      console.log(data);
+      this.setState({
+        routines: data
       });
+    });
   }
 
   getTaskData() {
@@ -63,9 +67,10 @@ export default class MyRoutines extends React.Component {
   }
 
   findTasksForRoutine(routine) {
-    return this.state.tasks.filter((task) => {
-      return task.routineId === routine.id;
-    });
+    return routine.tasks;
+    // return this.state.tasks.filter((task) => {
+    //   return task.routineId === routine._id;
+    // });
   }
 
   handleRemoveRoutine(id) {
@@ -86,12 +91,12 @@ export default class MyRoutines extends React.Component {
         <MyRoutinesNav />
         {this.state.routines.map((routine) => {
           return (
-            <Paper key={routine.id} style={paperStyle} zDepth={4}>
+            <Paper key={routine._id} style={paperStyle} zDepth={4}>
               {/* insert onTapTouch for FlatButton */}
               <AppBar
                 title={routine.name}
                 titleStyle={{fontSize: 18}}
-                iconElementLeft={ <IconButton onClick={this.handleRemoveRoutine.bind(this, routine.id)}>
+                iconElementLeft={ <IconButton onClick={this.handleRemoveRoutine.bind(this, routine._id)}>
                                     <NavigationClose />
                                   </IconButton> }
                 iconElementRight={ <Link params={{ name: routine.name }} to={`/routines/${routine.name}`}><IconButton><Launch /></IconButton></Link> }
@@ -99,13 +104,13 @@ export default class MyRoutines extends React.Component {
               <List>
 
                 {/*for each task in routine */}
-                {this.findTasksForRoutine(routine).map((task) => {
+                {routine.tasks.map((task, k) => {
                   return (
-                    <div key={task.id}>
+                    <div key={k}>
                       <Divider />
                       {/* insert onTapTouch for ListItem */}
                       <ListItem
-                        primaryText={task.name}
+                        primaryText={task}
                         rightIcon={<Link params={{ name: routine.name }} to={`/tasks/${task.name}`}><Launch /></Link>}
                       >
                       </ListItem>
