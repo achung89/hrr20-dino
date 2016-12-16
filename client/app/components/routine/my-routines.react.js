@@ -28,12 +28,10 @@ export default class MyRoutines extends React.Component {
 
     this.state = {
       routines: [],
-<<<<<<< 3a07691161c06fc05a849b639fb15efdb1018697
-      // tasks: []
-=======
       tasks: [],
-
->>>>>>> Plan for implementing state change
+      strikeStyle: {
+        textDecoration: 'line-through'
+      }
     };
   }
 
@@ -83,14 +81,16 @@ export default class MyRoutines extends React.Component {
     RoutineActions.remove(id);
   }
 
-  handleToggleCheckbox(e) {
-    console.log('YO', this, e)
+  handleToggleCheckbox(task) {
+    console.log('YO', this.state)//, this.state.tasks, task.style)
+    // this.setState({strikeStyle:{textDecoration: 'none'}});
+    // task.style = {textDecoration: 'line-through'}
     // swap state at passed in id
-    // if(state.toggle[id].textDecoration === 'none') {
-    //  state.toggle[id].textDecoration = 'line-through'
-    // } else {
-    //  state.toggle[id].textDecoration = 'none'
-    // }
+    if(this.state.strikeStyle === 'none') {
+     this.setState({strikeStyle:{textDecoration: 'line-through'}});
+    } else {
+     this.setState({strikeStyle:{textDecoration: 'none'}});
+    }
   };
 
   render() {
@@ -127,10 +127,10 @@ export default class MyRoutines extends React.Component {
                       {/* insert onTapTouch for ListItem */}
                       <ListItem
                         primaryText={task}
-                        style={{textDecoration: 'line-through'}}
                         leftCheckbox={<Checkbox />}
-                        onChange={this.handleTaskLineThrough.bind(this)}
-                        rightIcon={<Link params={{ name: routine.name }} to={`/tasks/${task}`}><Launch /></Link>}
+                        onChange={this.handleToggleCheckbox.bind(this)}
+                        style={this.state.strikeStyle}
+                        rightIcon={<Link params={{ name: routine.name }} to={`/tasks/${task.name}`}><Launch /></Link>}
                       >
                       </ListItem>
                     </div>
