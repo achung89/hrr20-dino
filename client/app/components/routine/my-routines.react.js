@@ -27,7 +27,7 @@ export default class MyRoutines extends React.Component {
 
     this.state = {
       routines: [],
-      tasks: []
+      // tasks: []
     };
   }
 
@@ -49,7 +49,7 @@ export default class MyRoutines extends React.Component {
   getRoutineData() {
     data.getRoutines((err, data) => {
       if (err) console.log(err);
-      console.log(data);
+      // console.log('getRoutineData', data);
       this.setState({
         routines: data
       });

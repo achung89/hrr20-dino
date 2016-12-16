@@ -11,69 +11,48 @@ import RoutineStore from '../../flux/stores/routine-store';
 import TaskStore from '../../flux/stores/task-store';
 import MyRoutines from './my-routines.react.js';
 import InlineEdit from 'react-edit-inline';
-RoutineStore.useMockData();
-TaskStore.useMockData();
+
+import data from '../../utils/api-utils';
 
 export default class Routine extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       routines: [],
-      tasks: [],
-      routineName: this.props.params.id
     };
   }
 
   componentDidMount() {
     this.getRoutineData();
-    this.getTaskData();
-
-    RoutineStore.addChangeListener(this.getRoutineData.bind(this));
-    TaskStore.addChangeListener(this.getTaskData.bind(this));
-  }
-
-  componentWillUnmount() {
-    RoutineStore.removeChangeListener(this.getRoutineData);
-    TaskStore.removeChangeListener(this.getTaskData);
+    // this.getTaskData();
+    //
+    // RoutineStore.addChangeListener(this.getRoutineData.bind(this));
+    // TaskStore.addChangeListener(this.getTaskData.bind(this));
   }
 
   getRoutineData() {
-    RoutineStore
-      .get()
-      .then((data) => {
-        this.setState({
-          routines: data.collection
-        });
+    data.getRoutines((err, data) => {
+      if (err) console.log(err);
+      console.log('getRoutineData in routine view:', data);
+      this.setState({
+        routines: data
       });
-  }
-
-  getTaskData() {
-    TaskStore
-      .get()
-      .then((data) => {
-        this.setState({
-          tasks: data.collection
-        });
-      });
+    });
   }
 
   findTasksForRoutine(routine) {
-    return this.state.tasks.filter((task) => {
-      return task.routineId === routine.id;
-    });
+    return routine.tasks;
+    // return this.state.tasks.filter((task) => {
+    //   return task.routineId === routine._id;
+    // });
   }
 
   findCurrentRoutine() {
     return this.state.routines.filter((routine) => {
+      // console.log('finding Current routine:',routine);
+      console.log('this.props.params.id', this.props.params.id);
       return this.props.params.id === routine.name;
     });
-  }
-
-  changeRoutine(data) {
-    this.setState({
-      routineName:data.undefined
-    });
-    console.log(this.state.routineName);
   }
 
   render() {
@@ -106,14 +85,14 @@ export default class Routine extends React.Component {
                     {/* for each task in routine */}
                     {/* add specific task name within primaryText */}
                     <InlineEdit
-                      text = {this.state.routineName}
+                      text = {routine.name}
                       change = {this.changeRoutine}
                     />
-                    {this.findTasksForRoutine(routine).map((task) => {
+                  {routine.tasks.map((task) => {
                       return (
-                        <div key={task.id}>
+                        <div key={routine.tasks.indexOf(task)}>
                           <Divider />
-                          <InlineEdit text={task.name} leftCheckbox={<Checkbox />} >
+                          <InlineEdit text={task} leftCheckbox={<Checkbox />} >
                           </InlineEdit>
                         </div>
                       );

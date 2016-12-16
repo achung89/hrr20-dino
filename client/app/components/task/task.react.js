@@ -22,6 +22,12 @@ export default class Task extends React.Component {
     };
   }
 
+  removeTask(task) {
+    console.log('this.props',this.props);
+    console.log('this.props.params',this.props.params);
+    console.log('this.props.params.id',this.props.params.id);
+  }
+
   render() {
     const paperStyle = {
       height: 190,
@@ -58,9 +64,16 @@ export default class Task extends React.Component {
               </Link>
             </div>
             <div style={taskStyle}>
-              <h3>Task description</h3>
+              <h3>Remove task?</h3>
               <Divider />
-              <h4>{this.props.params.id}</h4>
+              <Link to='/'>
+                <RaisedButton
+                  label="Remove Task"
+                  labelPosition="before"
+                  primary={true}
+                  icon={<RemoveCircleOutline />}
+                />
+              </Link>
             </div>
             </Paper>
           </div>
