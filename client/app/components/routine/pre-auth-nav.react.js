@@ -25,11 +25,6 @@ export default class PreAuthNav extends React.Component {
             />
           </ToolbarGroup>
           <ToolbarGroup lastChild={true}>
-            <RaisedButton
-              label="Login / Signup"
-              labelPosition="before"
-              primary={true}
-              />
           </ToolbarGroup>
         </Toolbar>
       </div>

@@ -9,8 +9,9 @@ import CreateTask from '../task/create-task.react';
 import Home from '../home/home.react';
 import SideMenu from '../side-menu/side-menu.react';
 import { Link, Router, Route, browserHistory } from 'react-router';
-
+import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
+import RaisedButton from 'material-ui/RaisedButton';
 // flux
 // import RoutineStore from '../../flux/stores/routine-store';
 // import TaskStore from '../../flux/stores/task-store';
@@ -64,23 +65,29 @@ export default class SignUp extends React.Component {
   render() {
     const paperStyle = {
       float: 'center',
-      height: 400,
+      height: 300,
       width: 300,
       margin: 30,
-      overflow: 'auto'
+      overflow: 'auto',
+      align:'center'
     };
-
+    const center = {
+      textAlign: "center"
+    }
     return (
       <div>
-        <Paper style={paperStyle} zDepth={4}>
+      <PreAuthNav />
+      <div>
+        <Paper style={center} style={paperStyle} zDepth={4}>
           {/* insert onTapTouch for FlatButton */}
-          <h1>Sign Up</h1>
-          <form onSubmit={this.submitForm.bind(this)}>
-            <input type='text' value={this.state.username} onChange={(e)=>{this.setState({username: e.target.value});}} placeholder='username'/>
-            <input type='text' value={this.state.password} onChange={(e)=>{this.setState({password: e.target.value});}} placeholder='password'/>
-            <input type='submit' />
+          <h1 style={center}>Sign Up</h1>
+          <form style={center} onSubmit={this.submitForm.bind(this)}>
+            <TextField style={center} type='text' value={this.state.username} onChange={(e)=>{this.setState({username: e.target.value});}} placeholder='username'/>
+            <TextField style={center}type='text' value={this.state.password} onChange={(e)=>{this.setState({password: e.target.value});}} placeholder='password'/>
+            <RaisedButton style={center}type='submit'>Sign in</RaisedButton>
           </form>
         </Paper>
+      </div>
       </div>
     );
   }

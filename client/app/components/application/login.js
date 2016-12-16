@@ -8,9 +8,11 @@ import Task from '../task/task.react';
 import CreateTask from '../task/create-task.react';
 import Home from '../home/home.react';
 import SideMenu from '../side-menu/side-menu.react';
+import TextField from 'material-ui/TextField';
 import { Link, Router, Route, browserHistory } from 'react-router';
-
+import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
+
 // flux
 // import RoutineStore from '../../flux/stores/routine-store';
 // import TaskStore from '../../flux/stores/task-store';
@@ -60,24 +62,31 @@ export default class LogIn extends React.Component {
   render() {
     const paperStyle = {
       float: 'center',
-      height: 400,
+      height: 300,
       width: 300,
       margin: 30,
-      overflow: 'auto'
+      overflow: 'auto',
+      align: 'center'
     };
-
+    const center = {
+      textAlign: "center"
+    }
     return (
       <div>
-        <Paper style={paperStyle} zDepth={4}>
+      <PreAuthNav />
+      <div style={center}>
+        <Paper style={center} style={paperStyle} zDepth={4}>
           {/* insert onTapTouch for FlatButton */}
-          <h1>Log In</h1>
-          <form onSubmit={this.submitForm.bind(this)}>
-            <input type='text' value={this.state.username} onChange={(e)=>{this.setState({username: e.target.value});}} placeholder='username'/>
-            <input type='text' value={this.state.password} onChange={(e)=>{this.setState({password: e.target.value});}} placeholder='password'/>
-            <input type='submit' />
+          <h1 style={center}>Log In</h1>
+          <form style={center} onSubmit={this.submitForm.bind(this)}>
+            <TextField style={center} type='text' value={this.state.username} onChange={(e)=>{this.setState({username: e.target.value});}} placeholder='username'/>
+            <TextField style={center} type='text' value={this.state.password} onChange={(e)=>{this.setState({password: e.target.value});}} placeholder='password'/>
+            <RaisedButton style={center} type='submit'>Log in</RaisedButton>
+
           </form>
-          <Link to='/signup'><u>Not a user? Click here to sign up</u></Link>
+          <div style={center}><Link to='/signup'><u>Not a user? Click here to sign up</u></Link></div>
         </Paper>
+      </div>
       </div>
     );
   }

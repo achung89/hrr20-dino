@@ -1,7 +1,7 @@
 const db = require('../../database/db_m.js');
 
 exports.checkUser = function(req, res) {
-  console.log('isSessions:', !(req.session ? !!req.session.user : false));
+  console.log('isSessions:', (req.session ? !!req.session.user : false));
   if (!(req.session ? !!req.session.user : false)) {
     console.log("Sent 400")
     res.sendStatus(400);
@@ -37,7 +37,11 @@ exports.loginUser = function(req, res) {
         }
       });
 };
-
+exports.logoutUser = function(req, res) {
+  req.session.destroy(function() {
+    res.sendStatus(200);
+  });
+};
 exports.signupUser = function(req, res) {
   var username = req.body.username;
   var password = req.body.password;
