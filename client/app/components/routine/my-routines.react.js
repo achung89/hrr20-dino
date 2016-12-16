@@ -7,11 +7,13 @@ import Launch from 'material-ui/svg-icons/action/launch';
 import {List, ListItem} from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import IconButton from 'material-ui/IconButton';
+import Checkbox from 'material-ui/Checkbox';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import { Link } from 'react-router';
 
 import data from '../../utils/api-utils';
 
+import Task from '../task/task.react.js';
 // flux
 // import RoutineStore from '../../flux/stores/routine-store';
 // import TaskStore from '../../flux/stores/task-store';
@@ -27,7 +29,8 @@ export default class MyRoutines extends React.Component {
 
     this.state = {
       routines: [],
-      // tasks: []
+      tasks: [],
+      strikeStyle: {textDecoration: 'none'}
     };
   }
 
@@ -89,7 +92,7 @@ export default class MyRoutines extends React.Component {
     return (
       <div>
         <MyRoutinesNav />
-        {this.state.routines.map((routine) => {
+        {this.state.routines.map((routine, i) => {
           return (
             <Paper key={routine._id} style={paperStyle} zDepth={4}>
               {/* insert onTapTouch for FlatButton */}
@@ -103,17 +106,12 @@ export default class MyRoutines extends React.Component {
               />
               <List>
 
-                {/*for each task in routine */}
+                {/* for each task in routine */}
                 {routine.tasks.map((task, k) => {
                   return (
                     <div key={k}>
-                      <Divider />
-                      {/* insert onTapTouch for ListItem */}
-                      <ListItem
-                        primaryText={task}
-                        rightIcon={<Link params={{ name: routine.name }} to={`/tasks/${task.name}`}><Launch /></Link>}
-                      >
-                      </ListItem>
+                      {/* create Task */}
+                      <Task primaryText={task} routine={routine} task={task}/>
                     </div>
                   );
                 })}
