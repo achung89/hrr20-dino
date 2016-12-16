@@ -83,7 +83,7 @@ export default class MyRoutines extends React.Component {
 
     return (
       <div>
-        <MyRoutinesNav/> {this.state.routines.map((routine) => {
+        <MyRoutinesNav colorChange={this.props.colorChange}/> {this.state.routines.map((routine) => {
           return (
             <Paper key={routine._id} style={paperStyle} zDepth={4}>
               {/* insert onTapTouch for FlatButton */}
