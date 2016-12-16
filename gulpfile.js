@@ -129,7 +129,7 @@ gulp.task('build', () => {
     })
     .external(vendors);
 
-  let firstBuild = true;
+  let firstBuild = false;
 
   const rebundle = function() {
     bundler.bundle()
@@ -211,7 +211,7 @@ const startServer = function() {
 
 gulp.task('watch', () => {
   gulp.watch(path.SCSS, ['sass']);
-  gulp.watch(`${path.DEST_BUILD}/bundle.js`, browserSync.reload());
+  gulp.watch(`${path.DEST_BUILD}/bundle.js`);
 });
 
 
