@@ -17,12 +17,20 @@ var routineSchema = new mongoose.Schema({
 
 // User document. Should hash password. Avatar just html link atm.
 var userSchema = new mongoose.Schema({
-  _id: Number,
+  _idNum: Number,
   name: String,
   password: String,
   avatar: String
 });
-
+// userSchema.pre('save', function(next) {
+//     var doc = this;
+//     counter.findByIdAndUpdate({_id: 'entityId'}, {$inc: { seq: 1} }, function(error, counter)   {
+//         if(error)
+//             return next(error);
+//         doc.testvalue = counter.seq;
+//         next();
+//     });
+// });
 
 var Routine = mongoose.model('routine', routineSchema);
 var User = mongoose.model('user', userSchema);

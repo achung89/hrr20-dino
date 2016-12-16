@@ -4,13 +4,15 @@ const path = require('path');
 const userController = require('./api/user/user.controller.js');
 const routineController = require('./api/routine/routine.controller.js');
 const taskController = require('./api/task/task.controller.js');
-
+var auth = require('./config/authenticate')
 
 module.exports = function(app, express) {
   var router = express.Router();
 
   //controller functions are in the controller.js of each folder in ./api/
-
+  router.route('/checkAuth').get(auth.checkUser);
+  router.route('/login').get(auth.createSession);
+  router.route('/signup').post(auth.signupUser)
   //all the routes for users
   router.route('/users')
     .get(userController.getAllUsers)
