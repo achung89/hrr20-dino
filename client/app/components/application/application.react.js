@@ -22,7 +22,7 @@ import { Link, Router, Route, browserHistory } from 'react-router';
 // material UI
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import Theme from '../theme/theme.js';
+import * as themes from '../theme/theme';
 
 // UserStore.useMockData();
 // RoutineStore.getData();
@@ -31,14 +31,14 @@ import Theme from '../theme/theme.js';
 export default class Application extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      users: [],
-      currentUser: null,
-
-      routines: [],
-      tasks: []
-    };
+    //
+    // this.state = {
+    //   users: [],
+    //   currentUser: null,
+    //
+    //   routines: [],
+    //   tasks: []
+    // };
 
     this.checkAuthenticate = (nextState)=>{
 
@@ -59,79 +59,20 @@ export default class Application extends React.Component {
   }
 
   componentDidMount() {
-    // this.getUserData();
-    // this.getRoutineData();
-    // this.getTaskData();
-    console.log('App component mounted, about to call get')
-    data.getRoutine((err, data)=> {
-      if (err) console.log('getRoutine error:', err);
-      console.log('get routine data:',data);
-    });
-
-    UserActions.setCurrentUser({
-      name: 'Sir Testburg',
-      password:'test',
-      id: 1,
-      avatar: 'http://www.yesnet.yk.ca/schools/projects/middleages2000/knights/graphics/horse.gif'
-    });
-
-
-    // UserStore.addChangeListener(this.getUserData.bind(this));
-    // RoutineStore.addChangeListener(this.getRoutineData.bind(this));
-    // TaskStore.addChangeListener(this.getTaskData.bind(this));
   }
 
   componentWillUnmount() {
-    // UserStore.removeChangeListener(this.getUserData);
-    // RoutineStore.removeChangeListener(this.getRoutineData);
-    // TaskStore.removeChangeListener(this.getTaskData);
+
   }
 
-  // getUserData() {
-  //   UserStore
-  //     .get()
-  //     .then((data) => {
-  //       console.log('User Data is:',data);
-  //       this.setState({
-  //         users: data.collection,
-  //         currentUser: data.currentUser
-  //       });
-  //     });
-  //     this.forceUpdate();
-  // }
-  //
-  // getRoutineData() {
-  //   RoutineStore
-  //     .get()
-  //     .then((data) => {
-  //       console.log('Routine Data is:',data);
-  //       this.setState({
-  //         routines: data.collection
-  //       });
-  //     });
-  // }
-  //
-  // getTaskData() {
-  //   TaskStore
-  //     .get()
-  //     .then((data) => {
-  //       console.log('Task Data is:',data);
-  //       this.setState({
-  //         tasks: data.collection
-  //       });
-  //     });
-  // }
 
 
   render() {
     return (
       <div id='application'>
-        <MuiThemeProvider muiTheme={getMuiTheme(Theme)} >
+        <MuiThemeProvider muiTheme={getMuiTheme(themes.theme)} >
           <Router history={browserHistory}>
-            <Route path='/'  component={MyRoutines}
-                             routines={this.state.routines}
-                             tasks={this.state.tasks}
-                             onEnter = {this.checkAuthenticate.bind(this)}>
+            <Route path='/'  component={MyRoutines}>
             </Route>
             <Route  path='/create-task' 
                    component={CreateTask} onEnter = {this.checkAuthenticate.bind(this)}> 

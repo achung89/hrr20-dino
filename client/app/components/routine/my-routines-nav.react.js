@@ -7,7 +7,9 @@ import AddCircleOutline from 'material-ui/svg-icons/content/add-circle-outline';
 import IconButton from 'material-ui/IconButton';
 import Reorder from 'material-ui/svg-icons/action/reorder';
 import * as Colors from 'material-ui/styles/colors';
-import { Link,browserHistory } from 'react-router';
+import { Link } from 'react-router';
+import * as themes from '../theme/theme';
+
 
 
 export default class MyRoutinesNav extends React.Component {
@@ -55,11 +57,12 @@ export default class MyRoutinesNav extends React.Component {
             <Link to='/'>
               <ToolbarTitle style={logoStyle} text="DinoTask" />
             </Link>
+            <div onClick={themes.pink}>turn it pink</div>
           </ToolbarGroup>
           <ToolbarGroup lastChild={true}>
             {/* insert onClick/onTapTouch to ArrowBack */}
             <ArrowBack />
-            <div style={titleStyle}>My Routines</div>
+            <div style={titleStyle}>My Routines </div>
             <Link to='/create-routine'>
               <RaisedButton
                 label="Create routine"

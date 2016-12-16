@@ -98,25 +98,25 @@ export default class MyRoutines extends React.Component {
                 `/routines/${routine.name}`
               } > <IconButton><Launch/></IconButton> < /Link>}/>
               <div className="day-quickview text-justify">
-                <span className={routine.repeat['sunday']
+                <span className={routine.repeat['Sunday']
                   ? 'day-view-on'
                   : 'day-view-off'}>SUN </span>
-                <span className={routine.repeat['monday']
+                <span className={routine.repeat['Monday']
                   ? 'day-view-on'
                   : 'day-view-off'}>MON </span>
-                <span className={routine.repeat['tuesday']
+                <span className={routine.repeat['Tuesday']
                   ? 'day-view-on'
                   : 'day-view-off'}>TUE </span>
-                <span className={routine.repeat['wednesday']
+                <span className={routine.repeat['Wednesday']
                   ? 'day-view-on'
                   : 'day-view-off'}>WED </span>
-                <span className={routine.repeat['thursday']
+                <span className={routine.repeat['Thursday']
                   ? 'day-view-on'
                   : 'day-view-off'}>THUR </span>
-                <span className={routine.repeat['friday']
+                <span className={routine.repeat['Friday']
                   ? 'day-view-on'
                   : 'day-view-off'}>FRI </span>
-                <span className={routine.repeat['saturday']
+                <span className={routine.repeat['Saturday']
                   ? 'day-view-on'
                   : 'day-view-off'}>SAT </span>
               </div>

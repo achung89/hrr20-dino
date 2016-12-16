@@ -7,8 +7,7 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import AddCircleOutline from 'material-ui/svg-icons/content/add-circle-outline';
 import RoutineActions from '../../flux/actions/routine-actions';
-import { Link } from 'react-router';
-
+import {Link} from 'react-router';
 
 export default class CreateRoutine extends React.Component {
   constructor(props) {
@@ -18,39 +17,37 @@ export default class CreateRoutine extends React.Component {
       name: null,
       description: null,
       days: {
-        sunday: false,
-        monday: false,
-        tuesday: false,
-        wednesday: false,
-        thursday: false,
-        friday: false,
-        saturday: false
+        Sunday: false,
+        Monday: false,
+        Tuesday: false,
+        Wednesday: false,
+        Thursday: false,
+        Friday: false,
+        Saturday: false
       },
       tasks: [],
       task: ''
     };
 
+
     this.handleTaskChange = this.handleTaskChange.bind(this);
   }
 
   handleChange(fieldName, event) {
-    this.setState({
-      [fieldName]: event.target.value
-    });
+    this.setState({[fieldName]: event.target.value});
   }
 
-  handleTaskChange(e){
+  handleTaskChange(e) {
     e.preventDefault();
     this.state.tasks.push(this.state.task);
     this.forceUpdate();
+    this.textInput.focus();
   }
 
   handleToggle(day) {
-    this.setState({
-      days: Object.assign({},
-      this.state.days,
-      { [day] : !this.state.days[day] })
-    });
+    this.setState({days: Object.assign({}, this.state.days, {
+        [day]: !this.state.days[day]
+      })});
   }
 
   handleSubmit() {
@@ -63,16 +60,10 @@ export default class CreateRoutine extends React.Component {
     $.ajax({
       method: 'POST',
       url: "/routines",
-      data: JSON.stringify({
-        name: this.state.name,
-        description: this.state.description,
-        repeat: this.state.days,
-        _creator: userId,
-        tasks: this.state.tasks
-      }),
+      data: JSON.stringify({name: this.state.name, description: this.state.description, repeat: this.state.days, _creator: userId, tasks: this.state.tasks}),
       dataType: "json",
       contentType: "application/json",
-      success: function(res, err){
+      success: function(res, err) {
         console.log('data posted, res:', res, 'err', err);
       }
     });
@@ -85,7 +76,7 @@ export default class CreateRoutine extends React.Component {
 
   render() {
     const paperStyle = {
-      height: 600,
+      height: 'auto',
       width: 600,
       margin: 20,
     };
@@ -97,59 +88,49 @@ export default class CreateRoutine extends React.Component {
 
     return (
       <div>
-        <CreateRoutineNav />
+        <CreateRoutineNav/>
         <div style={centerPaper}>
           <div>
-            <Paper style={paperStyle} zDepth={4}>
-              <div style={{margin: 20}}>
-                <TextField
-                  type="text"
-                  hintText="ex. Morning Workout"
-                  floatingLabelText="Please input the name of your Routine"
-                  fullWidth={true}
-                  onChange={this.handleChange.bind(this, 'name')}
-                /><br />
-                <div style={{fontSize: 18 + 'px'}}>Repeat</div>
+            <Paper style={paperStyle} zDepth={4} className="paper-pad-bot-10">
+              <div style={{
+                margin: 20
+              }}>
+                <TextField type="text" hintText="ex. Morning Workout" floatingLabelText="Please input the name of your Routine" fullWidth={true} onChange={this.handleChange.bind(this, 'name')}/><br/>
+                <div style={{
+                  fontSize: 18 + 'px'
+                }}>Repeat</div>
 
-                { Object.keys(this.state.days).map((day) => {
-                  return (
-                    <Toggle
-                      label={[day]}
-                      onToggle={this.handleToggle.bind(this, day)}
-                      toggled={this.state.days[day]}
-                    />
-                  );
+                {Object.keys(this.state.days).map((day) => {
+                  return (<Toggle label={[day]} onToggle={this.handleToggle.bind(this, day)} toggled={this.state.days[day]}/>);
                 })}
 
-                <Divider />
+                <Divider/>
 
-                <TextField
-                  hintText="ex. My morning workout consisting of stretching, cardio, weightlifting, and some jammin' tunes!" floatingLabelText="Please input the description of your Routine"
-                  fullWidth={true}
-                  multiLine={true}
-                  rows={4}
-                  onChange={this.handleChange.bind(this, 'description')}
-                />
-              {this.state.tasks.map((i, k)=>{
-                return <div key={k}>{i}</div>
-              })}
-                <TextField
-                  type="text"
-                  hintText="ex. 5 sun salutes"
-                  floatingLabelText="Add a task to the routine"
-                  fullWidth={true}
-                  onChange={this.handleChange.bind(this, 'task')}
-                />
-              <a href="#" onClick={this.handleTaskChange}>Add task</a>
+                <TextField hintText="ex. My morning workout consisting of stretching, cardio, weightlifting, and some jammin' tunes!" floatingLabelText="Please input the description of your Routine" fullWidth={true} multiLine={true} rows={2} onChange={this.handleChange.bind(this, 'description')}/>
+                {this.state.tasks.map((i, k) => {
+                  return <div key={k}>{i}</div>
+                })}
+                  <span className="col-sm-10">
+                    <TextField
+                      className="task-input"
+                      type="text"
+                      hintText="ex. 5 sun salutes"
+                      floatingLabelText="Add a task to the routine"
+                      fullWidth={true}
+                      onChange={this.handleChange.bind(this, 'task')}
+                      ref={(input) => { this.textInput = input; }}
+                      /></span>
+                  <span className="col-sm-2 bottom">
+                    <RaisedButton onClick={this.handleTaskChange} icon={< AddCircleOutline />} primary={false}/>
+                  </span>
                 <Link to='/'>
                   <RaisedButton
                     label="Add Routine"
                     labelPosition="before"
                     primary={true}
-                    icon={<AddCircleOutline />}
+                    icon={< AddCircleOutline />}
                     onClick={this.handleSubmit.bind(this)}
-                    Link to='/'
-                  />
+                    to='/'/>
                 </Link>
               </div>
             </ Paper>
