@@ -13,7 +13,7 @@ import { Link } from 'react-router';
 
 import data from '../../utils/api-utils';
 
-import TaskTest from '../task/taskTest.react.js';
+import Task from '../task/task.react.js';
 // flux
 // import RoutineStore from '../../flux/stores/routine-store';
 // import TaskStore from '../../flux/stores/task-store';
@@ -80,22 +80,6 @@ export default class MyRoutines extends React.Component {
     RoutineActions.remove(id);
   }
 
-  handleToggleCheckbox(key, i) {
-    console.log('YO', this.state, this.state.strikeStyle.textDecoration, key)//, this.state.tasks, task.style)
-    // this.setState({strikeStyle:{textDecoration: 'none'}});
-    // task.style = {textDecoration: 'line-through'}
-    // swap state at passed in id
-    if(!this.state.strikeStyle.textDecoration) {
-      this.setState({strikeStyle:{textDecoration: 'none'}});
-    }
-    // let keyLocation = this.state.routines
-    if(this.state.strikeStyle.textDecoration === 'none') {
-     this.setState({strikeStyle:{textDecoration: 'line-through'}});
-    } else {
-     this.setState({strikeStyle:{textDecoration: 'none'}})
-    }
-  };
-
   render() {
     const paperStyle = {
       float: 'left',
@@ -122,11 +106,12 @@ export default class MyRoutines extends React.Component {
               />
               <List>
 
-                {/*for each task in routine */}
+                {/* for each task in routine */}
                 {routine.tasks.map((task, k) => {
                   return (
                     <div key={k}>
-                      <TaskTest primaryText={task} routine={routine} task={task}/>
+                      {/* create Task */}
+                      <Task primaryText={task} routine={routine} task={task}/>
                     </div>
                   );
                 })}

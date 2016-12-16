@@ -1,85 +1,40 @@
 import React from 'react';
-// import UserStore from '../stores/user-store';
-// import UserActions from '../actions/user-actions';
-// import RoutineStore from '../stores/routine-store';
-// import RoutineActions from '../actions/routine-actions';
-// import TaskStore from '../stores/task-store';
-// import TaskActions from '../actions/task-actions';
-import TaskNav from './task-nav.react';
-import Paper from 'material-ui/Paper';
-import {List, ListItem} from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import Launch from 'material-ui/svg-icons/action/launch';
-import IconButton from 'material-ui/IconButton';
-import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
-import RemoveCircleOutline from 'material-ui/svg-icons/content/remove-circle-outline';
-import RaisedButton from 'material-ui/RaisedButton';
 import { Link } from 'react-router';
+import Checkbox from 'material-ui/Checkbox';
+import {List, ListItem} from 'material-ui/List';
+
 
 export default class Task extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      strikeStyle: {textDecoration: 'none'}
     };
   }
 
-  removeTask(task) {
-    console.log('this.props',this.props);
-    console.log('this.props.params',this.props.params);
-    console.log('this.props.params.id',this.props.params.id);
-  }
+  handleToggleCheckbox() {
+    if(this.state.strikeStyle.textDecoration === 'none') {
+     this.setState({strikeStyle:{textDecoration: 'line-through'}});
+    } else {
+     this.setState({strikeStyle:{textDecoration: 'none'}});
+    }
+  };
 
-  render() {
-    const paperStyle = {
-      height: 190,
-      width: 400,
-      margin: 15,
-    };
-    const centerPaper = {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center'
-    };
-    const textFieldStyle = {
-      margin: 25
-    };
-    const taskStyle = {
-      padding: 5,
-      marginLeft: 17,
-      marginRight: 17
-    };
-    const navClose = {
-      marginLeft: 10,
-      marginTop: 10
-    };
-
-    return (
-      <div>
-        <TaskNav />
-        <div style={centerPaper}>
-          <div>
-            <Paper style={paperStyle} zDepth={4}>
-            <div>
-              <Link to='/'>
-                <ArrowBack />
-              </Link>
-            </div>
-            <div style={taskStyle}>
-              <h3>Remove task?</h3>
-                <RaisedButton
-                  label="Remove Task"
-                  labelPosition="before"
-                  primary={true}
-                  onClick={this.removeTask.bind(this)}
-                  icon={<RemoveCircleOutline />}
-                />
-            </div>
-            </Paper>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
+render(){
+  return (
+    <div>
+      <Divider />
+      <ListItem
+        primaryText={this.props.task}
+        leftCheckbox={<Checkbox />}
+        onClick={this.handleToggleCheckbox.bind(this)}
+        style={this.state.strikeStyle}
+        rightIcon={<Link params={{ name: this.props.routine.name }} to={`/tasks/${this.props.task}`}><Launch /></Link>}
+      >
+      </ListItem>
+    </div>
+  )
+};
 }
