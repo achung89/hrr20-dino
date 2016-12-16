@@ -20,7 +20,7 @@ import Paper from 'material-ui/Paper';
 // RoutineStore.useMockData();
 // TaskStore.useMockData();
 
-export default class SignUp extends React.Component {
+export default class LogIn extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -41,16 +41,12 @@ export default class SignUp extends React.Component {
   submitForm(changes) {
     console.log(this.state);
     $.ajax({
-      type:'POST',
-      url:'/signup',
+      type:'GET',
+      url:'/login',
       data: this.state
     })
   }
 
-  handleChange(event) {
-
-
-  }
 
   render() {
     const paperStyle = {
@@ -65,12 +61,13 @@ export default class SignUp extends React.Component {
       <div>
         <Paper style={paperStyle} zDepth={4}>
           {/* insert onTapTouch for FlatButton */}
-          <h1>Sign Up</h1>
+          <h1>Log In</h1>
           <form onSubmit={this.submitForm.bind(this)}>
             <input type='text' value={this.state.username} onChange={(e)=>{this.setState({username: e.target.value});}} placeholder='username'/>
             <input type='text' value={this.state.password} onChange={(e)=>{this.setState({password: e.target.value});}} placeholder='password'/>
             <input type='submit' />
           </form>
+          <Link to='/signup'><u>Not a user? Click here to sign up</u></Link>
         </Paper>
       </div>
     );

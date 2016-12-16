@@ -8,7 +8,7 @@ import Task from '../task/task.react';
 import CreateTask from '../task/create-task.react';
 import Home from '../home/home.react';
 import SideMenu from '../side-menu/side-menu.react';
-import SignUp from "./signup";
+import LogIn from "./login";
 import { Link, Router, Route, browserHistory } from 'react-router';
 // import data from '../../utils/api-utils';
 
@@ -150,7 +150,7 @@ export default class Application extends React.Component {
             <Route path='/tasks/:id'
                    component={Task}
                    onEnter = {this.checkAuthenticate.bind(this)}/>
-            <Route path='/login' component= {SignUp}/>
+            <Route path='/login' component= {LogIn}/>
           </Router>
         </MuiThemeProvider>
       </div>

@@ -11,7 +11,7 @@ module.exports = function(app, express) {
 
   //controller functions are in the controller.js of each folder in ./api/
   router.route('/checkAuth').get(auth.checkUser);
-  router.route('/login').get(auth.createSession);
+  router.route('/login').get(auth.loginUser);
   router.route('/signup').post(auth.signupUser)
   //all the routes for users
   router.route('/users')

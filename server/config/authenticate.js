@@ -19,18 +19,16 @@ exports.createSession = function(req, res, newUser) {
 exports.loginUser = function(req, res) {
   var username = req.body.username;
   var password = req.body.password;
-  db.User.findOne({ username: username }, function(err, user) {
+  db.User.findOne({ name: username }, function(err, user) {
         //asume err can be in place of !user
         if (!user) {
-          res.redirect('/login');
+          res.redirect('/');
         } else {
-          user.comparePassword(password, function(err, match) {
-            if (match) {
-              exports.createSession(req, res, user);
-            } else {
-              res.redirect('/login');
-            }
-          });
+          if (user.password===password) {
+            exports.createSession(req, res, user);
+          } else {
+            res.redirect('/');
+          }
         }
       });
 };
@@ -39,12 +37,11 @@ exports.signupUser = function(req, res) {
   var username = req.body.username;
   var password = req.body.password;
 
-  db.User.findOne({user: username}, function(err, user) {
+  db.User.findOne({name: username}, function(err, user) {
       //Why cant I use err here?
       if (!user) {
         var newUser = new db.User({
-          _idNum:0,
-          user: username,
+          name: username,
           password: password,
           avatar: ''
         });
