@@ -22,6 +22,7 @@ var userSchema = new mongoose.Schema({
   avatar: String
 });
 
+
 var Routine = mongoose.model('routine', routineSchema);
 var User = mongoose.model('user', userSchema);
 

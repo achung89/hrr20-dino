@@ -1,6 +1,7 @@
 const db = require('../../database/db_m.js');
 
 exports.checkUser = function(req, res) {
+
   console.log('isSessions:', (req.session ? !!req.session.user : false));
   if (!(req.session ? !!req.session.user : false)) {
     console.log("Sent 400")
@@ -8,6 +9,7 @@ exports.checkUser = function(req, res) {
   } else {
     console.log("Sent 200")
     res.sendStatus(200);
+
   }
 };
 
@@ -17,6 +19,7 @@ exports.createSession = function(req, res, newUser) {
       req.session.user = newUser;
       console.log('regenerated');
       res.sendStatus(201);
+
     });
 };
 
@@ -61,6 +64,7 @@ exports.signupUser = function(req, res) {
           }else{
             console.log('Entry created');
             console.log('this is user:', !!newUser)
+
             exports.createSession(req, res, newUser);
           }
         });
