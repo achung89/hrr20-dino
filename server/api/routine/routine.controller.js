@@ -16,6 +16,7 @@ module.exports = {
         _creator: req.body.userId,
         tasks: req.body.tasks
     }
+    console.log("The thing is being made")
     db.Routine.create(routine, (err, resp) => {
       if (err) console.log(err);
       console.log('DB updated with: ', resp);

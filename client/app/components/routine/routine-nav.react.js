@@ -8,6 +8,8 @@ import IconButton from 'material-ui/IconButton';
 import Reorder from 'material-ui/svg-icons/action/reorder';
 import * as Colors from 'material-ui/styles/colors';
 
+import { Link } from 'react-router';
+
 export default class Routine extends React.Component {
   constructor(props) {
     super(props);
@@ -34,7 +36,9 @@ export default class Routine extends React.Component {
             <IconButton>
               <Reorder />
             </IconButton>
-            <ToolbarTitle style={logoStyle} text="DinoTask" />
+            <Link to='/'>
+              <ToolbarTitle style={logoStyle} text="DinoTask" />
+            </Link>
           </ToolbarGroup>
           <ToolbarGroup lastChild={true}>
             {/* insert onClick/onTapTouch to ArrowBack */}
@@ -43,12 +47,14 @@ export default class Routine extends React.Component {
             {/* insert Routine name in text */}
             <ToolbarTitle style={titleStyle} text="Routine" />
             {/* insert onClick/onTapTouch to RaisedButton */}
-            <RaisedButton
-              label="Create Task"
-              labelPosition="before"
-              primary={true}
-              icon={<AddCircleOutline />}
+            <Link to='/create-task'>
+              <RaisedButton
+                label="Create Task"
+                labelPosition="before"
+                primary={true}
+                icon={<AddCircleOutline />}
               />
+            </Link>
             <ToolbarSeparator />
             {/* insert onClick/onTapTouch to RaisedButton */}
             <RaisedButton

@@ -117,12 +117,18 @@ export default class Application extends React.Component {
                              tasks={this.state.tasks}>
 
             </Route>
+            <Route  path='/create-task' 
+                   component={CreateTask}> 
+            </Route>
             <Route path='/routines/:id'
                    component={Routine}
                    test={[1, 2, 3]}
             />
             <Route  path='/create-routine'
                     component={CreateRoutine}>
+            </Route>
+            <Route  path='/create-task'
+                    component={CreateTask}>
             </Route>
             <Route path='/tasks/:id'
                    component={Task}
