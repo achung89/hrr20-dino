@@ -7,6 +7,7 @@ import Launch from 'material-ui/svg-icons/action/launch';
 import {List, ListItem} from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import IconButton from 'material-ui/IconButton';
+import Checkbox from 'material-ui/Checkbox';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import { Link } from 'react-router';
 
@@ -28,6 +29,10 @@ export default class MyRoutines extends React.Component {
     this.state = {
       routines: [],
       // tasks: []
+      tasks: [],
+      strikeStyle: {
+        textDecoration: 'line-through'
+      }
     };
   }
 
@@ -77,6 +82,18 @@ export default class MyRoutines extends React.Component {
     RoutineActions.remove(id);
   }
 
+  handleToggleCheckbox(task) {
+    console.log('YO', this.state)//, this.state.tasks, task.style)
+    // this.setState({strikeStyle:{textDecoration: 'none'}});
+    // task.style = {textDecoration: 'line-through'}
+    // swap state at passed in id
+    if(this.state.strikeStyle === 'none') {
+     this.setState({strikeStyle:{textDecoration: 'line-through'}});
+    } else {
+     this.setState({strikeStyle:{textDecoration: 'none'}});
+    }
+  };
+
   render() {
     const paperStyle = {
       float: 'left',
@@ -111,6 +128,9 @@ export default class MyRoutines extends React.Component {
                       {/* insert onTapTouch for ListItem */}
                       <ListItem
                         primaryText={task}
+                        leftCheckbox={<Checkbox />}
+                        onChange={this.handleToggleCheckbox.bind(this)}
+                        style={this.state.strikeStyle}
                         rightIcon={<Link params={{ name: routine.name }} to={`/tasks/${task.name}`}><Launch /></Link>}
                       >
                       </ListItem>
