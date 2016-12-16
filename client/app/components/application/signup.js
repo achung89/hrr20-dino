@@ -38,12 +38,21 @@ export default class SignUp extends React.Component {
     // RoutineStore.removeChangeListener(this.getRoutineData);
     // TaskStore.removeChangeListener(this.getTaskData);
   }
-  submitForm(changes) {
+  submitForm(e) {
+    e.preventDefault();
     console.log(this.state);
     $.ajax({
       type:'POST',
       url:'/signup',
-      data: this.state
+      data: this.state,
+      success:function() {
+          browserHistory.push('/');
+          console.log("DONE!");
+      },
+      error:function() {
+          browserHistory.push('/login');
+          console.log('lololol');
+        }
     })
   }
 

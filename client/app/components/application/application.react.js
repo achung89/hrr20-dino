@@ -9,6 +9,7 @@ import CreateTask from '../task/create-task.react';
 import Home from '../home/home.react';
 import SideMenu from '../side-menu/side-menu.react';
 import LogIn from "./login";
+import SignUp from "./signup";
 import { Link, Router, Route, browserHistory } from 'react-router';
 // import data from '../../utils/api-utils';
 
@@ -48,9 +49,9 @@ export default class Application extends React.Component {
           browserHistory.push(nextState.location.pathname);
           console.log("DONE!");
         },
-        error:function() {
+        error:function(error) {
           browserHistory.push('/login');
-          console.log('lololol');
+          console.log('lololol', error);
         }
       });
     }
@@ -62,7 +63,7 @@ export default class Application extends React.Component {
     // this.getRoutineData();
     // this.getTaskData();
     console.log('App component mounted, about to call get')
-    data.getRoutine((err, data)=>{
+    data.getRoutine((err, data)=> {
       if (err) console.log('getRoutine error:', err);
       console.log('get routine data:',data);
     });
@@ -151,6 +152,7 @@ export default class Application extends React.Component {
                    component={Task}
                    onEnter = {this.checkAuthenticate.bind(this)}/>
             <Route path='/login' component= {LogIn}/>
+            <Route path='/signup' component={SignUp}/>
           </Router>
         </MuiThemeProvider>
       </div>

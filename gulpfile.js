@@ -53,7 +53,6 @@ var path = {
 
 /*
     Build environment is determined by NODE_ENV:
-
     * The `gulp` command will build according to the NODE_ENV environment variable.
     * To build for production while NODE_ENV is *not* set to `development`,
         run `gulp production` explicitly. Note that NODE_ENV will be set
@@ -129,7 +128,7 @@ gulp.task('build', () => {
     })
     .external(vendors);
 
-  let firstBuild = false;
+  let firstBuild = true;
 
   const rebundle = function() {
     bundler.bundle()
@@ -211,7 +210,7 @@ const startServer = function() {
 
 gulp.task('watch', () => {
   gulp.watch(path.SCSS, ['sass']);
-  gulp.watch(`${path.DEST_BUILD}/bundle.js`);
+  gulp.watch(`${path.DEST_BUILD}/bundle.js`, browserSync.reload());
 });
 
 

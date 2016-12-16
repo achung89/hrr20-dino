@@ -1,10 +1,13 @@
 const db = require('../../database/db_m.js');
 
 exports.checkUser = function(req, res) {
+  console.log('isSessions:', !(req.session ? !!req.session.user : false));
   if (!(req.session ? !!req.session.user : false)) {
-    res.sendStatus(404);
+    console.log("Sent 400")
+    res.sendStatus(400);
   } else {
-    res.sendStatus(202);
+    console.log("Sent 200")
+    res.sendStatus(200);
   }
 };
 
@@ -12,22 +15,24 @@ exports.checkUser = function(req, res) {
 exports.createSession = function(req, res, newUser) {
   return req.session.regenerate(function() {
       req.session.user = newUser;
-      res.redirect('/');
+      console.log('regenerated');
+      res.sendStatus(201);
     });
 };
 
 exports.loginUser = function(req, res) {
-  var username = req.body.username;
-  var password = req.body.password;
+  var username = req.query.username;
+  var password = req.query.password;
+  console.log('in login User Username:',username,'Password:',password)
   db.User.findOne({ name: username }, function(err, user) {
         //asume err can be in place of !user
         if (!user) {
-          res.redirect('/');
+          res.sendStatus(404);
         } else {
           if (user.password===password) {
             exports.createSession(req, res, user);
           } else {
-            res.redirect('/');
+            res.sendStatus(404);
           }
         }
       });
@@ -51,12 +56,13 @@ exports.signupUser = function(req, res) {
             res.sendStatus(500,err);
           }else{
             console.log('Entry created');
+            console.log('this is user:', !!newUser)
             exports.createSession(req, res, newUser);
           }
         });
       } else {
         console.log('Account already exists');
-        res.redirect('/');
+        res.sendStatus(404);
       }
     });
 };
