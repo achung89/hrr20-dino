@@ -52,6 +52,7 @@ export default class MyRoutines extends React.Component {
       this.setState({
         routines: data
       });
+    });
   }
 
   getTaskData() {
@@ -94,6 +95,7 @@ export default class MyRoutines extends React.Component {
                 `/routines/${routine.name}`
               } > <IconButton><Launch/></IconButton> < /Link>}/>
               <div className="day-quickview text-justify">
+                {console.log('can I log here?', routine.repeat)}
                 <span classNam className={routine.repeat['sunday']
                   ? 'day-view-on'
                   : 'day-view-off'}>SUN </span>
