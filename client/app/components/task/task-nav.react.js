@@ -45,14 +45,6 @@ export default class TaskNav extends React.Component {
               />
               <ToolbarTitle style={titleStyle} text="Task" />
             {/* insert onClick/onTapTouch to RaisedButton */}
-            <Link to='/'>
-              <RaisedButton
-                label="Remove Task"
-                labelPosition="before"
-                primary={true}
-                icon={<RemoveCircleOutline />}
-              />
-            </Link>
             <ToolbarSeparator />
             {/* insert onClick/onTapTouch to RaisedButton */}
             <RaisedButton
