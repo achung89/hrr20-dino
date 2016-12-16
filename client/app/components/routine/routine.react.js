@@ -13,6 +13,11 @@ import MyRoutines from './my-routines.react.js';
 import InlineEdit from 'react-edit-inline';
 
 import data from '../../utils/api-utils';
+import Delete from 'material-ui/svg-icons/action/delete';
+import AddCircle from 'material-ui/svg-icons/content/add-circle';
+import AppBar from 'material-ui/AppBar';
+import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
+import TextField from 'material-ui/TextField';
 
 export default class Routine extends React.Component {
   constructor(props) {
@@ -20,6 +25,7 @@ export default class Routine extends React.Component {
     this.state = {
       routines: [],
     };
+
   }
 
   componentDidMount() {
@@ -49,10 +55,46 @@ export default class Routine extends React.Component {
 
   findCurrentRoutine() {
     return this.state.routines.filter((routine) => {
-      // console.log('finding Current routine:',routine);
-      console.log('this.props.params.id', this.props.params.id);
       return this.props.params.id === routine.name;
     });
+  }
+
+  handleSubmit() {
+    //****************
+    // hard coded user, replace when auth is done.
+    //****************
+    var userId = 1;
+    console.log('submitting routine! state is:', this.state);
+
+    $.ajax({
+      method: 'POST',
+      url: "/routines",
+      data: JSON.stringify({
+        name: this.state.name,
+        description: this.state.description,
+        repeat: this.state.days,
+        _creator: userId,
+        tasks: this.state.tasks
+      }),
+      dataType: "json",
+      contentType: "application/json",
+      success: function(res, err){
+        console.log('data posted, res:', res, 'err', err);
+      }
+    });
+    // RoutineActions.add({
+    //   name: this.state.name || '',
+    //   description: this.state.description || '',
+    //   repeat: this.state.days
+    // });
+  }
+
+  addTask(task) {
+    console.log('did we add it?');
+  }
+
+  removeTask(task) {
+    console.log('is it gone yet?');
   }
 
   render() {
@@ -84,22 +126,33 @@ export default class Routine extends React.Component {
                   <List>
                     {/* for each task in routine */}
                     {/* add specific task name within primaryText */}
-                    <InlineEdit
-                      text = {routine.name}
-                      change = {this.changeRoutine}
-                    />
+                    <Toolbar >
+                      <ToolbarGroup firstChild={true}>
+                        <InlineEdit text={routine.name}></InlineEdit>
+                      </ToolbarGroup>
+                    </Toolbar>
                   {routine.tasks.map((task) => {
                       return (
                         <div key={routine.tasks.indexOf(task)}>
                           <Divider />
-                          <InlineEdit text={task} leftCheckbox={<Checkbox />} >
-                          </InlineEdit>
+                          <InlineEdit text={task}></InlineEdit>
+                          <IconButton onClick={this.removeTask}
+                                      tooltip="Remove Task">
+                            <Delete />
+                          </IconButton>
                         </div>
                       );
                     })}
                   </List>
                 );
               })}
+              <TextField
+                type="text"
+                hintText="ex. 5 sun salutes"
+                floatingLabelText="Add another task"
+                onChange={this.handleChange.bind(this, 'task')}
+              />
+            <IconButton tooltip="Add Task" onClick={this.handleTaskChange}><AddCircle /></IconButton>
             </Paper>
           </div>
         </div>

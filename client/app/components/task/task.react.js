@@ -12,6 +12,8 @@ import Divider from 'material-ui/Divider';
 import Launch from 'material-ui/svg-icons/action/launch';
 import IconButton from 'material-ui/IconButton';
 import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
+import RemoveCircleOutline from 'material-ui/svg-icons/content/remove-circle-outline';
+import RaisedButton from 'material-ui/RaisedButton';
 import { Link } from 'react-router';
 
 export default class Task extends React.Component {
@@ -65,15 +67,13 @@ export default class Task extends React.Component {
             </div>
             <div style={taskStyle}>
               <h3>Remove task?</h3>
-              <Divider />
-              <Link to='/'>
                 <RaisedButton
                   label="Remove Task"
                   labelPosition="before"
                   primary={true}
+                  onClick={this.removeTask.bind(this)}
                   icon={<RemoveCircleOutline />}
                 />
-              </Link>
             </div>
             </Paper>
           </div>
