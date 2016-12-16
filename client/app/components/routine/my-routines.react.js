@@ -13,6 +13,7 @@ import { Link } from 'react-router';
 
 import data from '../../utils/api-utils';
 
+import TaskTest from '../task/taskTest.react.js';
 // flux
 // import RoutineStore from '../../flux/stores/routine-store';
 // import TaskStore from '../../flux/stores/task-store';
@@ -80,7 +81,7 @@ export default class MyRoutines extends React.Component {
   }
 
   handleToggleCheckbox(key, i) {
-    console.log('YO', this.state, this.state.strikeStyle.textDecoration)//, this.state.tasks, task.style)
+    console.log('YO', this.state, this.state.strikeStyle.textDecoration, key)//, this.state.tasks, task.style)
     // this.setState({strikeStyle:{textDecoration: 'none'}});
     // task.style = {textDecoration: 'line-through'}
     // swap state at passed in id
@@ -125,16 +126,7 @@ export default class MyRoutines extends React.Component {
                 {routine.tasks.map((task, k) => {
                   return (
                     <div key={k}>
-                      <Divider />
-                      {/* insert onTapTouch for ListItem */}
-                      <ListItem
-                        primaryText={task}
-                        leftCheckbox={<Checkbox />}
-                        onChange={this.handleToggleCheckbox.bind(this, k, i)}
-                        style={this.state.strikeStyle}
-                        rightIcon={<Link params={{ name: routine.name }} to={`/tasks/${task.name}`}><Launch /></Link>}
-                      >
-                      </ListItem>
+                      <TaskTest primaryText={task} routine={routine} task={task}/>
                     </div>
                   );
                 })}
