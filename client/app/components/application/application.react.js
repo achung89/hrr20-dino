@@ -1,6 +1,9 @@
 import React from 'react';
+<<<<<<< 41873f1f7161c6be9ab8b4a93941b48d26ba2372
 // import TestComponent from './test-component.react';
 import PreAuthNav from '../routine/pre-auth-nav.react';
+=======
+>>>>>>> Add theme technology, including tweens, add some basic themes (green, blue, pink)
 import Routine from '../routine/routine.react';
 import CreateRoutine from '../routine/create-routine.react';
 import MyRoutines from '../routine/my-routines.react';
@@ -13,32 +16,20 @@ import SignUp from "./signup";
 import { Link, Router, Route, browserHistory } from 'react-router';
 // import data from '../../utils/api-utils';
 
-// Flux
-// import UserActions from '../../flux/actions/user-actions';
-// import UserStore from '../../flux/stores/user-store';
-// import RoutineStore from '../../flux/stores/routine-store';
-// import TaskStore from '../../flux/stores/task-store';
-
 // material UI
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import * as themes from '../theme/theme';
 
-// UserStore.useMockData();
-// RoutineStore.getData();
-// TaskStore.useMockData();
-
 export default class Application extends React.Component {
   constructor(props) {
     super(props);
-    //
-    // this.state = {
-    //   users: [],
-    //   currentUser: null,
-    //
-    //   routines: [],
-    //   tasks: []
-    // };
+
+    this.state = {
+      color: ''
+    }
+
+    this.colorChange = this.colorChange.bind(this);
 
     this.checkAuthenticate = (nextState)=>{
 
@@ -55,14 +46,13 @@ export default class Application extends React.Component {
         }
       });
     }
-    // this.getUserData = this.getUserData.bind(this);
+
   }
 
-  componentDidMount() {
-  }
-
-  componentWillUnmount() {
-
+  colorChange(colorName) {
+    this.setState({
+      color: colorName
+    });
   }
 
 
@@ -70,9 +60,12 @@ export default class Application extends React.Component {
   render() {
     return (
       <div id='application'>
-        <MuiThemeProvider muiTheme={getMuiTheme(themes.theme)} >
+        <MuiThemeProvider muiTheme={themes.getTheme(this.state.color)} >
           <Router history={browserHistory}>
-            <Route path='/'  component={MyRoutines}>
+            <Route path='/'
+              component={()=>(<MyRoutines
+              colorChange={this.colorChange} />)}
+              >
             </Route>
             <Route  path='/create-task' 
                    component={CreateTask} onEnter = {this.checkAuthenticate.bind(this)}> 

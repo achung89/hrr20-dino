@@ -15,9 +15,12 @@ import * as themes from '../theme/theme';
 export default class MyRoutinesNav extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
+    console.log('myRoutinesNav props', this.props);
+    this.themeChange = this.themeChange.bind(this);
+  }
 
-    };
+  themeChange(color){
+    this.props.colorChange(color);
   }
   logout(e) {
     e.preventDefault();
@@ -57,7 +60,9 @@ export default class MyRoutinesNav extends React.Component {
             <Link to='/'>
               <ToolbarTitle style={logoStyle} text="DinoTask" />
             </Link>
-            <div onClick={themes.pink}>turn it pink</div>
+            <div onClick={()=>this.themeChange('green')}>turn it default</div>
+            <div onClick={()=>this.themeChange('pink')}>turn it pink</div>
+            <div onClick={()=>this.themeChange('blue')}>turn it blue</div>
           </ToolbarGroup>
           <ToolbarGroup lastChild={true}>
             {/* insert onClick/onTapTouch to ArrowBack */}
