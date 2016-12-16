@@ -1,9 +1,0 @@
-.DS_Store
-bower_components
-node_modules
-.idea
-server/dist
-server/db
-npm-debug.log
-.floo
-.flooignore
