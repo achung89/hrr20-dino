@@ -29,9 +29,7 @@ export default class MyRoutines extends React.Component {
     this.state = {
       routines: [],
       tasks: [],
-      strikeStyle: {
-        textDecoration: 'line-through'
-      }
+      strikeStyle: {textDecoration: 'none'}
     };
   }
 
@@ -81,15 +79,19 @@ export default class MyRoutines extends React.Component {
     RoutineActions.remove(id);
   }
 
-  handleToggleCheckbox(task) {
-    console.log('YO', this.state)//, this.state.tasks, task.style)
+  handleToggleCheckbox(key, i) {
+    console.log('YO', this.state, this.state.strikeStyle.textDecoration)//, this.state.tasks, task.style)
     // this.setState({strikeStyle:{textDecoration: 'none'}});
     // task.style = {textDecoration: 'line-through'}
     // swap state at passed in id
-    if(this.state.strikeStyle === 'none') {
+    if(!this.state.strikeStyle.textDecoration) {
+      this.setState({strikeStyle:{textDecoration: 'none'}});
+    }
+    // let keyLocation = this.state.routines
+    if(this.state.strikeStyle.textDecoration === 'none') {
      this.setState({strikeStyle:{textDecoration: 'line-through'}});
     } else {
-     this.setState({strikeStyle:{textDecoration: 'none'}});
+     this.setState({strikeStyle:{textDecoration: 'none'}})
     }
   };
 
@@ -105,7 +107,7 @@ export default class MyRoutines extends React.Component {
     return (
       <div>
         <MyRoutinesNav />
-        {this.state.routines.map((routine) => {
+        {this.state.routines.map((routine, i) => {
           return (
             <Paper key={routine._id} style={paperStyle} zDepth={4}>
               {/* insert onTapTouch for FlatButton */}
@@ -128,7 +130,7 @@ export default class MyRoutines extends React.Component {
                       <ListItem
                         primaryText={task}
                         leftCheckbox={<Checkbox />}
-                        onChange={this.handleToggleCheckbox.bind(this)}
+                        onChange={this.handleToggleCheckbox.bind(this, k, i)}
                         style={this.state.strikeStyle}
                         rightIcon={<Link params={{ name: routine.name }} to={`/tasks/${task.name}`}><Launch /></Link>}
                       >
