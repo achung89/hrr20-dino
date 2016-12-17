@@ -1,7 +1,7 @@
 import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import {Toolbar, ToolbarGroup, ToolbarTitle} from 'material-ui/Toolbar';
-import {Link} from 'react-router';
+import {Link,context} from 'react-router';
 
 export default class PreAuthNav extends React.Component {
   constructor(props) {
@@ -15,26 +15,31 @@ export default class PreAuthNav extends React.Component {
     const logoStyle = {
       fontWeight: 'bold',
       fontSize: 30,
-      color: '#FFFFFF'
+      color: '#FFFFFF',
+      paddingLeft:'44%'
     };
-    return (
-      <div>
-        <Toolbar>
-            <ToolbarGroup style={{paddingLeft:'50%'}}>
-             <Link to='/' >
-              <ToolbarTitle style={logoStyle} text="DinoTask" />
-            </Link>
+      return (
+        <div>
+            <Toolbar>
+            <ToolbarTitle style = {logoStyle} firstChild={true} text={(window.location.pathname==='/signup')?'DinoTask':''}/>
+              <ToolbarGroup lastChild={true}>
+              <Link to="/signup" style = {{marginRight:'1em'}}>
+                <RaisedButton
+                  label="Signup"
+                  labelPosition="before"
+                  primary={true}
+                  />
+              </Link>
+              <Link to="/login" style = {{marginRight:'2em'}}>
+                <RaisedButton
+                  label="Log In"
+                  labelPosition="before"
+                  primary={true}
+                  />
+              </Link>
             </ToolbarGroup>
-
-          <ToolbarGroup lastChild={true}>
-            <RaisedButton
-              label="Login / Signup"
-              labelPosition="before"
-              primary={true}
-              />
-          </ToolbarGroup>
-        </Toolbar>
-      </div>
-    );
+          </Toolbar>
+        </div>
+      );
   }
 }

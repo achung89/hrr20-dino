@@ -53,6 +53,7 @@ export default class LogIn extends React.Component {
           browserHistory.push('/');
       },
       error:function() {
+          alert('Username or Password ');
           browserHistory.push('/login');
         }
     })
@@ -89,19 +90,24 @@ export default class LogIn extends React.Component {
     const input = {
       margin:'1em'
     }
-
+    const logoStyle = {
+      fontWeight: 'bold',
+      fontSize: 30,
+      color: '#FFFFFF',
+      paddingLeft:'45%'
+    };
     return (
       <div>
-      <PreAuthNav />
-      <div style={marginLeft}>
+        <PreAuthNav />
+        <div style={marginLeft}>
 
         <Paper style={paperStyle} zDepth={4}>
-        <AppBar style={app} textStyle={textAlign} showMenuIconButton={false}>
+        <AppBar style={app} titleStyle={logoStyle} showMenuIconButton={false} title='DinoTask'/>
           {/* insert onTapTouch for FlatButton */}
-          </AppBar>
           <form style={form} onSubmit={this.submitForm.bind(this)}>
-            <TextField style={center} style={input} type='text' value={this.state.username} onChange={(e)=>{this.setState({username: e.target.value});}}/>
-            <TextField style={center} style={input} type='text' value={this.state.password} onChange={(e)=>{this.setState({password: e.target.value});}}/>
+            <TextField style={center} style={input} type='text' value={this.state.username} onChange={(e)=>{this.setState({username: e.target.value});}} hintText='Username'/>
+            <TextField style={center} style={input} type= 'password' value={this.state.password} onChange={(e)=>{this.setState({password: e.target.value});}} hintText='Password'/>
+
             <RaisedButton primary={true} style={textAlign} style={input} type='submit'label='Log In' />
 
           </form>

@@ -38,11 +38,9 @@ export default class Application extends React.Component {
         url:'/checkAuth',
         success:function() {
           browserHistory.push(nextState.location.pathname);
-
         },
         error:function(error) {
           browserHistory.push('/login');
-
         }
       });
     }
@@ -62,8 +60,9 @@ export default class Application extends React.Component {
           <Router history={browserHistory}>
             <Route path='/'
               component={()=>(<MyRoutines
-              colorChange={this.colorChange} />)}
-              >
+              colorChange={this.colorChange}
+              />)}
+              onEnter={this.checkAuthenticate.bind(this)}>
             </Route>
             <Route  path='/create-task' 
                    component={CreateTask} onEnter = {this.checkAuthenticate.bind(this)}> 
