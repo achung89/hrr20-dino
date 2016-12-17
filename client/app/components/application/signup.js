@@ -48,11 +48,11 @@ export default class SignUp extends React.Component {
       data: this.state,
       success:function() {
           browserHistory.push('/');
-          console.log("DONE!");
+
       },
       error:function() {
           browserHistory.push('/login');
-          console.log('lololol');
+
         }
     })
   }
@@ -74,17 +74,20 @@ export default class SignUp extends React.Component {
     const center = {
       textAlign: "center"
     }
+    const marginLeft = {
+      marginLeft:'35%'
+    }
     return (
       <div>
       <PreAuthNav />
-      <div>
+      <div style={marginLeft}>
         <Paper style={center} style={paperStyle} zDepth={4}>
           {/* insert onTapTouch for FlatButton */}
           <h1 style={center}>Sign Up</h1>
           <form style={center} onSubmit={this.submitForm.bind(this)}>
             <TextField style={center} type='text' value={this.state.username} onChange={(e)=>{this.setState({username: e.target.value});}} placeholder='username'/>
             <TextField style={center}type='text' value={this.state.password} onChange={(e)=>{this.setState({password: e.target.value});}} placeholder='password'/>
-            <RaisedButton style={center}type='submit'>Sign in</RaisedButton>
+            <RaisedButton style={center}type='submit'>Sign up</RaisedButton>
           </form>
         </Paper>
       </div>

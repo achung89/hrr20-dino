@@ -30,6 +30,7 @@ export default class Application extends React.Component {
 
     this.colorChange = this.colorChange.bind(this);
 
+
     this.checkAuthenticate = (nextState)=>{
 
       $.ajax({
@@ -37,11 +38,11 @@ export default class Application extends React.Component {
         url:'/checkAuth',
         success:function() {
           browserHistory.push(nextState.location.pathname);
-          console.log("DONE!");
+
         },
         error:function(error) {
           browserHistory.push('/login');
-          console.log('lololol', error);
+
         }
       });
     }

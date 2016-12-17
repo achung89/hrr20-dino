@@ -26,11 +26,9 @@ export default class Routine extends React.Component {
       data: this.state,
       success:function() {
           browserHistory.push('/login');
-          console.log("DONE!");
         },
       error:function() {
           browserHistory.push('/login');
-          console.log('lololol');
       }
     })
   }
