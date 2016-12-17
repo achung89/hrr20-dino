@@ -55,7 +55,7 @@ export default class Routine extends React.Component {
             </Link>
           </ToolbarGroup>
           <ToolbarGroup lastChild={true}>
-            <ToolbarTitle style={titleStyle} text="Current Routine" />
+            <ToolbarTitle style={titleStyle} text="Update Your Routine Here!" />
             <ToolbarSeparator />
             <RaisedButton
               label="Logout"

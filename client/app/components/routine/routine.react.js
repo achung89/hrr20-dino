@@ -30,21 +30,15 @@ export default class Routine extends React.Component {
       currentRoutine: {},
       task: ''
     };
-
     this.handleTaskChange = this.handleTaskChange.bind(this);
   }
 
   componentDidMount() {
     this.getRoutineData();
-    // this.getTaskData();
-    //
-    // RoutineStore.addChangeListener(this.getRoutineData.bind(this));
-    // TaskStore.addChangeListener(this.getTaskData.bind(this));
   }
 
   getRoutineData() {
     data.getRoutines((err, data) => {
-      // if (err) console.log(err);
       this.setState({
         routines: data
       });
@@ -105,19 +99,9 @@ export default class Routine extends React.Component {
       contentType: "application/json",
       success: function(res, err){
         console.log('Put Res:', res, 'err', err);
-      //   if (err) {
-      //     console.log(err, res);
-      //   }
-      //   console.log('Routine updated successfully, res:', res);
       }
     });
-    // RoutineActions.add({
-    //   name: this.state.name || '',
-    //   description: this.state.description || '',
-    //   repeat: this.state.days
-    // });
   }
-
 
   render() {
     const paperStyle = {
@@ -171,17 +155,19 @@ export default class Routine extends React.Component {
                 hintText="ex. 5 sun salutes"
                 onChange={this.handleChange.bind(this, 'task')}
               />
-            <IconButton tooltip="Add Task" onClick={this.handleTaskChange.bind(this)}><AddCircle /></IconButton>
-              <Link to='/'>
-                <RaisedButton
-                  label="Update Routine"
-                  labelPosition="before"
-                  primary={true}
-                  icon={<Refresh />}
-                  onClick={this.handleSubmit.bind(this)}
-                  Link to='/'
-                />
-              </Link>
+              <IconButton tooltip="Add Task" onClick={this.handleTaskChange.bind(this)}><AddCircle /></IconButton>
+              <div>
+                <Link to='/'>
+                  <RaisedButton
+                    label="Update Routine"
+                    labelPosition="before"
+                    primary={true}
+                    icon={<Refresh />}
+                    onClick={this.handleSubmit.bind(this)}
+                    Link to='/'
+                  />
+                </Link>
+              </div>
             </Paper>
           </div>
         </div>
