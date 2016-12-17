@@ -13,7 +13,7 @@ import SideMenu from '../side-menu/side-menu.react';
 import LogIn from "./login";
 import SignUp from "./signup";
 import { Link, Router, Route, browserHistory } from 'react-router';
-// import data from '../../utils/api-utils';
+import data from '../../utils/api-utils';
 
 // material UI
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';

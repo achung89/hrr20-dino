@@ -31,10 +31,10 @@ render(){
         leftCheckbox={<Checkbox />}
         onChange={this.handleToggleCheckbox.bind(this)}
         style={this.state.strikeStyle}
-        rightIcon={<Link params={{ name: this.props.routine.name }} to={`/tasks/${this.props.task}`}><Launch /></Link>}
       >
       </ListItem>
     </div>
   )
 };
 }
+// rightIcon={<Link params={{ name: this.props.routine.name }} to={`/tasks/${this.props.task}`}><Launch /></Link>}

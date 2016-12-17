@@ -18,14 +18,33 @@ import AddCircle from 'material-ui/svg-icons/content/add-circle';
 import AppBar from 'material-ui/AppBar';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 import TextField from 'material-ui/TextField';
+import Refresh from 'material-ui/svg-icons/navigation/refresh';
+import { Link } from 'react-router';
+import RaisedButton from 'material-ui/RaisedButton';
 
 export default class Routine extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       routines: [],
+      currentRoutine: {
+        name: null,
+        description: null,
+        days: {
+          sunday: false,
+          monday: false,
+          tuesday: false,
+          wednesday: false,
+          thursday: false,
+          friday: false,
+          saturday: false
+        },
+        tasks: [],
+        task: ''
+      }
     };
 
+    this.handleTaskChange = this.handleTaskChange.bind(this);
   }
 
   componentDidMount() {
@@ -55,7 +74,40 @@ export default class Routine extends React.Component {
 
   findCurrentRoutine() {
     return this.state.routines.filter((routine) => {
-      return this.props.params.id === routine.name;
+      if (this.props.params.id === routine.name) {
+        this.state.currentRoutine = routine;
+        return routine;
+      }
+    });
+  }
+
+  handleChange(fieldName, event) {
+    this.setState({
+      currentRoutine: Object.assign({},
+      this.state.currentRoutine,
+      {[fieldName] : event.target.value})
+    });
+  }
+
+  handleTaskChange(e){
+    console.log('handling task change');
+    console.log(this.state.currentRoutine.tasks);
+    e.preventDefault();
+    this.state.currentRoutine.tasks.push('Test');
+    this.forceUpdate();
+  }
+
+  removeTask(e) {
+    e.preventDefault();
+    this.state.currentRoutine.tasks.splice((this.state.currentRoutine.tasks).indexOf(this.state.currentRoutine.task), 1);
+    this.forceUpdate();
+  }
+
+  handleToggle(day) {
+    this.setState({
+      days: Object.assign({},
+      this.state.days,
+      { [day] : !this.state.days[day] })
     });
   }
 
@@ -67,8 +119,8 @@ export default class Routine extends React.Component {
     console.log('submitting routine! state is:', this.state);
 
     $.ajax({
-      method: 'POST',
-      url: "/routines",
+      method: 'PUT',
+      url: '/routines/:userId/:routineId',
       data: JSON.stringify({
         name: this.state.name,
         description: this.state.description,
@@ -79,7 +131,7 @@ export default class Routine extends React.Component {
       dataType: "json",
       contentType: "application/json",
       success: function(res, err){
-        console.log('data posted, res:', res, 'err', err);
+        console.log('Data updated, res:', res, 'err', err);
       }
     });
     // RoutineActions.add({
@@ -89,13 +141,6 @@ export default class Routine extends React.Component {
     // });
   }
 
-  addTask(task) {
-    console.log('did we add it?');
-  }
-
-  removeTask(task) {
-    console.log('is it gone yet?');
-  }
 
   render() {
     const paperStyle = {
@@ -136,7 +181,7 @@ export default class Routine extends React.Component {
                         <div key={routine.tasks.indexOf(task)}>
                           <Divider />
                           <InlineEdit text={task}></InlineEdit>
-                          <IconButton onClick={this.removeTask}
+                          <IconButton onClick={this.removeTask.bind(this)}
                                       tooltip="Remove Task">
                             <Delete />
                           </IconButton>
@@ -149,10 +194,18 @@ export default class Routine extends React.Component {
               <TextField
                 type="text"
                 hintText="ex. 5 sun salutes"
-                floatingLabelText="Add another task"
                 onChange={this.handleChange.bind(this, 'task')}
               />
-            <IconButton tooltip="Add Task" onClick={this.handleTaskChange}><AddCircle /></IconButton>
+            <IconButton tooltip="Add Task" onClick={this.handleTaskChange.bind(this)}><AddCircle /></IconButton>
+              <Link to='/'>
+                <RaisedButton
+                  label="Update Routine"
+                  labelPosition="before"
+                  primary={true}
+                  icon={<Refresh />}
+                  Link to='/'
+                />
+              </Link>
             </Paper>
           </div>
         </div>
