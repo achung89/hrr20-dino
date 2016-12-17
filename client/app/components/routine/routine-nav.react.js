@@ -63,14 +63,6 @@ export default class Routine extends React.Component {
             {/* insert Routine name in text */}
             <ToolbarTitle style={titleStyle} text="Routine" />
             {/* insert onClick/onTapTouch to RaisedButton */}
-            <Link to='/create-task'>
-              <RaisedButton
-                label="Create Task"
-                labelPosition="before"
-                primary={true}
-                icon={<AddCircleOutline />}
-              />
-            </Link>
             <ToolbarSeparator />
             {/* insert onClick/onTapTouch to RaisedButton */}
             <RaisedButton
