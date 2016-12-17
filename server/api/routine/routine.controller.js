@@ -5,7 +5,7 @@ const db = require('../../../database/db_m.js');
 module.exports = {
   //Adds a user's routine to the Routine table
   addARoutine: function (req, res, next) {
-    console.log('routine adding, req', req.body);
+    // console.log('routine adding, req', req.body);
     let routine = {
         name: req.body.name,
         description: req.body.description,
@@ -16,10 +16,10 @@ module.exports = {
         _creator: req.body.userId,
         tasks: req.body.tasks
     }
-    console.log("The thing is being made")
+    // console.log("The thing is being made")
     db.Routine.create(routine, (err, resp) => {
       if (err) console.log(err);
-      console.log('DB updated with: ', resp);
+      // console.log('DB updated with: ', resp);
       res.status(201).send(resp);
     });
     // Models.Routine.build({
@@ -43,7 +43,7 @@ module.exports = {
 
     db.Routine.find((err, data)=>{
       if (err) console.log(err);
-      console.log('sending data back', data);
+      // console.log('sending data back', data);
       res.send(data);
     });
     // Models.Routine.findAll({
@@ -95,5 +95,8 @@ module.exports = {
   updateARoutine: function(req, res, next) {
     //Syntax for this might be tricky, as we have to dynamically
     //update a user-specified routine property.
+    db.Routine.findByIdAndUpdate(req.body._id, req.body).exec((err, data)=>{
+      res.status(204).send(data);
+    });
   },
 }

@@ -21,7 +21,6 @@ import TextField from 'material-ui/TextField';
 import Refresh from 'material-ui/svg-icons/navigation/refresh';
 import { Link } from 'react-router';
 import RaisedButton from 'material-ui/RaisedButton';
-import update from 'react-addons-update';
 
 export default class Routine extends React.Component {
   constructor(props) {
@@ -45,7 +44,7 @@ export default class Routine extends React.Component {
 
   getRoutineData() {
     data.getRoutines((err, data) => {
-      if (err) console.log(err);
+      // if (err) console.log(err);
       this.setState({
         routines: data
       });
@@ -58,7 +57,7 @@ export default class Routine extends React.Component {
 
   findCurrentRoutine() {
     return this.state.routines.filter((routine) => {
-      if (this.props.params.id === routine.name) {
+      if (this.props.params.id === routine._id) {
         this.state.currentRoutine = routine;
         return routine;
       }
@@ -100,18 +99,16 @@ export default class Routine extends React.Component {
 
     $.ajax({
       method: 'PUT',
-      url: '/routines/:userId/:routineId',
-      data: JSON.stringify({
-        name: this.state.name,
-        description: this.state.description,
-        repeat: this.state.days,
-        _creator: userId,
-        tasks: this.state.tasks
-      }),
+      url: '/routines',
+      data: JSON.stringify(this.state.currentRoutine),
       dataType: "json",
       contentType: "application/json",
       success: function(res, err){
-        console.log('Data updated, res:', res, 'err', err);
+        console.log('Put Res:', res, 'err', err);
+      //   if (err) {
+      //     console.log(err, res);
+      //   }
+      //   console.log('Routine updated successfully, res:', res);
       }
     });
     // RoutineActions.add({
@@ -181,6 +178,7 @@ export default class Routine extends React.Component {
                   labelPosition="before"
                   primary={true}
                   icon={<Refresh />}
+                  onClick={this.handleSubmit.bind(this)}
                   Link to='/'
                 />
               </Link>

@@ -30,7 +30,7 @@ export default class MyRoutines extends React.Component {
 
   getRoutineData() {
     data.getRoutines((err, data) => {
-      if (err) console.log(err);
+      // if (err) console.log(err);
       this.setState({
         routines: data
       });
@@ -60,8 +60,8 @@ export default class MyRoutines extends React.Component {
                 fontSize: 18
               }} iconElementLeft={< IconButton onClick = {
                 this.handleRemoveRoutine.bind(this, routine._id)
-              } > <NavigationClose/> < /IconButton>} iconElementRight={< Link params = {{ name: routine.name }}to = {
-                `/routines/${routine.name}`
+              } > <NavigationClose/> < /IconButton>} iconElementRight={< Link params = {{ id: routine._id }}to = {
+                `/routines/${routine._id}`
               } > <IconButton><Launch/></IconButton> < /Link>}/>
               <div className="day-quickview text-justify">
                 <span className={routine.repeat['Sunday']
