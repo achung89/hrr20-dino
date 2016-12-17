@@ -18,14 +18,21 @@ import AddCircle from 'material-ui/svg-icons/content/add-circle';
 import AppBar from 'material-ui/AppBar';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 import TextField from 'material-ui/TextField';
+import Refresh from 'material-ui/svg-icons/navigation/refresh';
+import { Link } from 'react-router';
+import RaisedButton from 'material-ui/RaisedButton';
+import update from 'react-addons-update';
 
 export default class Routine extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       routines: [],
+      currentRoutine: {},
+      task: ''
     };
 
+    this.handleTaskChange = this.handleTaskChange.bind(this);
   }
 
   componentDidMount() {
@@ -39,7 +46,6 @@ export default class Routine extends React.Component {
   getRoutineData() {
     data.getRoutines((err, data) => {
       if (err) console.log(err);
-      console.log('getRoutineData in routine view:', data);
       this.setState({
         routines: data
       });
@@ -48,15 +54,41 @@ export default class Routine extends React.Component {
 
   findTasksForRoutine(routine) {
     return routine.tasks;
-    // return this.state.tasks.filter((task) => {
-    //   return task.routineId === routine._id;
-    // });
   }
 
   findCurrentRoutine() {
     return this.state.routines.filter((routine) => {
-      return this.props.params.id === routine.name;
+      if (this.props.params.id === routine.name) {
+        this.state.currentRoutine = routine;
+        return routine;
+      }
     });
+  }
+
+  handleChange(fieldName, event) {
+    this.setState({
+      [fieldName] : event.target.value
+    });
+  }
+
+  handleTaskChange(e){
+    e.preventDefault();
+    this.state.currentRoutine.tasks.push(this.state.task);
+    this.forceUpdate();
+  }
+
+  removeTask(task, e) {
+    e.preventDefault();
+    this.state.currentRoutine.tasks.splice((this.state.currentRoutine.tasks).indexOf(task), 1);
+    this.forceUpdate();
+  }
+
+  handleTaskEdit(oldTask, event) {
+    this.state.currentRoutine.tasks[this.state.currentRoutine.tasks.indexOf(oldTask)] = event.task;
+  }
+
+  handleNameEdit(event) {
+    this.state.currentRoutine.name = event.newName;
   }
 
   handleSubmit() {
@@ -67,8 +99,8 @@ export default class Routine extends React.Component {
     console.log('submitting routine! state is:', this.state);
 
     $.ajax({
-      method: 'POST',
-      url: "/routines",
+      method: 'PUT',
+      url: '/routines/:userId/:routineId',
       data: JSON.stringify({
         name: this.state.name,
         description: this.state.description,
@@ -79,7 +111,7 @@ export default class Routine extends React.Component {
       dataType: "json",
       contentType: "application/json",
       success: function(res, err){
-        console.log('data posted, res:', res, 'err', err);
+        console.log('Data updated, res:', res, 'err', err);
       }
     });
     // RoutineActions.add({
@@ -89,13 +121,6 @@ export default class Routine extends React.Component {
     // });
   }
 
-  addTask(task) {
-    console.log('did we add it?');
-  }
-
-  removeTask(task) {
-    console.log('is it gone yet?');
-  }
 
   render() {
     const paperStyle = {
@@ -124,19 +149,17 @@ export default class Routine extends React.Component {
               {this.findCurrentRoutine().map((routine) => {
                 return (
                   <List>
-                    {/* for each task in routine */}
-                    {/* add specific task name within primaryText */}
                     <Toolbar >
                       <ToolbarGroup firstChild={true}>
-                        <InlineEdit text={routine.name}></InlineEdit>
+                        <InlineEdit text={routine.name} paramName="newName" change={this.handleNameEdit.bind(this)}></InlineEdit>
                       </ToolbarGroup>
                     </Toolbar>
                   {routine.tasks.map((task) => {
                       return (
                         <div key={routine.tasks.indexOf(task)}>
                           <Divider />
-                          <InlineEdit text={task}></InlineEdit>
-                          <IconButton onClick={this.removeTask}
+                          <InlineEdit text={task} change={this.handleTaskEdit.bind(this, task)}></InlineEdit>
+                          <IconButton onClick={this.removeTask.bind(this, task)}
                                       tooltip="Remove Task">
                             <Delete />
                           </IconButton>
@@ -149,10 +172,18 @@ export default class Routine extends React.Component {
               <TextField
                 type="text"
                 hintText="ex. 5 sun salutes"
-                floatingLabelText="Add another task"
                 onChange={this.handleChange.bind(this, 'task')}
               />
-            <IconButton tooltip="Add Task" onClick={this.handleTaskChange}><AddCircle /></IconButton>
+            <IconButton tooltip="Add Task" onClick={this.handleTaskChange.bind(this)}><AddCircle /></IconButton>
+              <Link to='/'>
+                <RaisedButton
+                  label="Update Routine"
+                  labelPosition="before"
+                  primary={true}
+                  icon={<Refresh />}
+                  Link to='/'
+                />
+              </Link>
             </Paper>
           </div>
         </div>

@@ -53,26 +53,12 @@ export default class Routine extends React.Component {
               <Reorder />
             </IconButton>
             <Link to='/'>
-              <ToolbarTitle style={logoStyle} text="DinoTask" />
+              <ToolbarTitle style={logoStyle} text="DinoParrotTask" />
             </Link>
           </ToolbarGroup>
           <ToolbarGroup lastChild={true}>
-            {/* insert onClick/onTapTouch to ArrowBack */}
-            <ArrowBack
-              />
-            {/* insert Routine name in text */}
-            <ToolbarTitle style={titleStyle} text="Routine" />
-            {/* insert onClick/onTapTouch to RaisedButton */}
-            <Link to='/create-task'>
-              <RaisedButton
-                label="Create Task"
-                labelPosition="before"
-                primary={true}
-                icon={<AddCircleOutline />}
-              />
-            </Link>
+            <ToolbarTitle style={titleStyle} text="Current Routine" />
             <ToolbarSeparator />
-            {/* insert onClick/onTapTouch to RaisedButton */}
             <RaisedButton
               label="Logout"
               labelPosition="before"
