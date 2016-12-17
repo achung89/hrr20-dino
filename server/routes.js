@@ -33,11 +33,11 @@ module.exports = function(app, express) {
 
   router.route('/routines')
     .get(routineController.getMyRoutines)
-    .post(routineController.addARoutine);
+    .post(routineController.addARoutine)
+    .put(routineController.updateARoutine);
 
   router.route('/routines/:userId/:routineId')
     .get(routineController.getARoutine)
-    .put(routineController.updateARoutine)
     .delete(routineController.deleteARoutine)
 
 

@@ -21,7 +21,6 @@ import TextField from 'material-ui/TextField';
 import Refresh from 'material-ui/svg-icons/navigation/refresh';
 import { Link } from 'react-router';
 import RaisedButton from 'material-ui/RaisedButton';
-import update from 'react-addons-update';
 
 export default class Routine extends React.Component {
   constructor(props) {
@@ -31,21 +30,15 @@ export default class Routine extends React.Component {
       currentRoutine: {},
       task: ''
     };
-
     this.handleTaskChange = this.handleTaskChange.bind(this);
   }
 
   componentDidMount() {
     this.getRoutineData();
-    // this.getTaskData();
-    //
-    // RoutineStore.addChangeListener(this.getRoutineData.bind(this));
-    // TaskStore.addChangeListener(this.getTaskData.bind(this));
   }
 
   getRoutineData() {
     data.getRoutines((err, data) => {
-      if (err) console.log(err);
       this.setState({
         routines: data
       });
@@ -58,7 +51,7 @@ export default class Routine extends React.Component {
 
   findCurrentRoutine() {
     return this.state.routines.filter((routine) => {
-      if (this.props.params.id === routine.name) {
+      if (this.props.params.id === routine._id) {
         this.state.currentRoutine = routine;
         return routine;
       }
@@ -100,27 +93,15 @@ export default class Routine extends React.Component {
 
     $.ajax({
       method: 'PUT',
-      url: '/routines/:userId/:routineId',
-      data: JSON.stringify({
-        name: this.state.name,
-        description: this.state.description,
-        repeat: this.state.days,
-        _creator: userId,
-        tasks: this.state.tasks
-      }),
+      url: '/routines',
+      data: JSON.stringify(this.state.currentRoutine),
       dataType: "json",
       contentType: "application/json",
       success: function(res, err){
-        console.log('Data updated, res:', res, 'err', err);
+        console.log('Put Res:', res, 'err', err);
       }
     });
-    // RoutineActions.add({
-    //   name: this.state.name || '',
-    //   description: this.state.description || '',
-    //   repeat: this.state.days
-    // });
   }
-
 
   render() {
     const paperStyle = {
@@ -174,16 +155,19 @@ export default class Routine extends React.Component {
                 hintText="ex. 5 sun salutes"
                 onChange={this.handleChange.bind(this, 'task')}
               />
-            <IconButton tooltip="Add Task" onClick={this.handleTaskChange.bind(this)}><AddCircle /></IconButton>
-              <Link to='/'>
-                <RaisedButton
-                  label="Update Routine"
-                  labelPosition="before"
-                  primary={true}
-                  icon={<Refresh />}
-                  Link to='/'
-                />
-              </Link>
+              <IconButton tooltip="Add Task" onClick={this.handleTaskChange.bind(this)}><AddCircle /></IconButton>
+              <div>
+                <Link to='/'>
+                  <RaisedButton
+                    label="Update Routine"
+                    labelPosition="before"
+                    primary={true}
+                    icon={<Refresh />}
+                    onClick={this.handleSubmit.bind(this)}
+                    Link to='/'
+                  />
+                </Link>
+              </div>
             </Paper>
           </div>
         </div>
