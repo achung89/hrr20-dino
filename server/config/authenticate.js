@@ -17,6 +17,7 @@ exports.checkUser = function(req, res) {
 exports.createSession = function(req, res, newUser) {
   return req.session.regenerate(function() {
       req.session.user = newUser;
+      console.log(req.session.user);
       console.log('regenerated');
       res.sendStatus(201);
 
@@ -32,11 +33,13 @@ exports.loginUser = function(req, res) {
         if (!user) {
           res.sendStatus(404);
         } else {
-          if (user.password===password) {
-            exports.createSession(req, res, user);
-          } else {
-            res.sendStatus(404);
-          }
+          user.comparePassword(password, function(err,match){
+            if (match) {
+              exports.createSession(req, res, user);
+            } else {
+              res.status(404).send(err);
+            }
+          });
         }
       });
 };

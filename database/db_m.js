@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
-
+var bcrypt = require('bcrypt-nodejs');
+var Promise = require('bluebird');
 mongoose.connect('mongodb://localhost/dinotask');
 
 
@@ -11,6 +12,7 @@ var routineSchema = new mongoose.Schema({
   end_time: Date,
   repeat: Object,
   tasks: Array,
+  userId: String,
   completed: Boolean,
   _creator: { type: Number, ref: 'User'}
 });
@@ -26,6 +28,27 @@ var userSchema = new mongoose.Schema({
 var Routine = mongoose.model('routine', routineSchema);
 var User = mongoose.model('user', userSchema);
 
+User.prototype.comparePassword = function(attemptedPassword, callback) {
+  bcrypt.compare(attemptedPassword, this.password, function(error, isMatch) {
+    if (error) {
+      callback(error);
+    } else {
+      callback(null, isMatch);
+    }
+  });
+};
+
+userSchema.pre('save' , function(next) {
+  console.log('Saving...')
+  var cipher = Promise.promisify(bcrypt.hash);
+  console.log('saved.')
+  return cipher(this.password, null, null).bind(this)
+    .then(function(hash) {
+      this.password = hash;
+      //assume that this is async
+      next();
+    });
+});
 //var testguy = new User({_id: 1, name: "Testy McTest", password: "pwd", avatar:"picture"});
 
 module.exports.Routine = Routine;
