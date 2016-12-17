@@ -1,4 +1,5 @@
 import React from 'react';
+
 // import TestComponent from './test-component.react';
 import PreAuthNav from '../routine/pre-auth-nav.react';
 
@@ -44,7 +45,6 @@ export default class Application extends React.Component {
         }
       });
     }
-
   }
 
   colorChange(colorName) {
@@ -52,7 +52,6 @@ export default class Application extends React.Component {
       color: colorName
     });
   }
-
 
 
   render() {
