@@ -17,7 +17,6 @@ var routineSchema = new mongoose.Schema({
 
 // User document. Should hash password. Avatar just html link atm.
 var userSchema = new mongoose.Schema({
-  _id: Number,
   name: String,
   password: String,
   avatar: String
@@ -27,7 +26,7 @@ var userSchema = new mongoose.Schema({
 var Routine = mongoose.model('routine', routineSchema);
 var User = mongoose.model('user', userSchema);
 
-var testguy = new User({_id: 1, name: "Testy McTest", password: "pwd", avatar:"picture"});
+//var testguy = new User({_id: 1, name: "Testy McTest", password: "pwd", avatar:"picture"});
 
 module.exports.Routine = Routine;
 module.exports.User = User;

@@ -53,7 +53,6 @@ var path = {
 
 /*
     Build environment is determined by NODE_ENV:
-
     * The `gulp` command will build according to the NODE_ENV environment variable.
     * To build for production while NODE_ENV is *not* set to `development`,
         run `gulp production` explicitly. Note that NODE_ENV will be set

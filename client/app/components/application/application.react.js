@@ -1,6 +1,6 @@
 import React from 'react';
 // import TestComponent from './test-component.react';
-// import PreAuthNav from '../routine/pre-auth-nav.react';
+import PreAuthNav from '../routine/pre-auth-nav.react';
 import Routine from '../routine/routine.react';
 import CreateRoutine from '../routine/create-routine.react';
 import MyRoutines from '../routine/my-routines.react';
@@ -8,6 +8,8 @@ import Task from '../task/task.react';
 import CreateTask from '../task/create-task.react';
 import Home from '../home/home.react';
 import SideMenu from '../side-menu/side-menu.react';
+import LogIn from "./login";
+import SignUp from "./signup";
 import { Link, Router, Route, browserHistory } from 'react-router';
 // import data from '../../utils/api-utils';
 
@@ -38,6 +40,21 @@ export default class Application extends React.Component {
       tasks: []
     };
 
+    this.checkAuthenticate = (nextState)=>{
+
+      $.ajax({
+        type:'GET',
+        url:'/checkAuth',
+        success:function() {
+          browserHistory.push(nextState.location.pathname);
+          console.log("DONE!");
+        },
+        error:function(error) {
+          browserHistory.push('/login');
+          console.log('lololol', error);
+        }
+      });
+    }
     // this.getUserData = this.getUserData.bind(this);
   }
 
@@ -46,7 +63,7 @@ export default class Application extends React.Component {
     // this.getRoutineData();
     // this.getTaskData();
     console.log('App component mounted, about to call get')
-    data.getRoutine((err, data)=>{
+    data.getRoutine((err, data)=> {
       if (err) console.log('getRoutine error:', err);
       console.log('get routine data:',data);
     });
@@ -57,7 +74,6 @@ export default class Application extends React.Component {
       id: 1,
       avatar: 'http://www.yesnet.yk.ca/schools/projects/middleages2000/knights/graphics/horse.gif'
     });
-
 
 
     // UserStore.addChangeListener(this.getUserData.bind(this));
@@ -106,33 +122,37 @@ export default class Application extends React.Component {
   //     });
   // }
 
-  render() {
 
+  render() {
     return (
       <div id='application'>
         <MuiThemeProvider muiTheme={getMuiTheme(Theme)} >
           <Router history={browserHistory}>
             <Route path='/'  component={MyRoutines}
                              routines={this.state.routines}
-                             tasks={this.state.tasks}>
-
+                             tasks={this.state.tasks}
+                             onEnter = {this.checkAuthenticate.bind(this)}>
             </Route>
             <Route  path='/create-task' 
-                   component={CreateTask}> 
+                   component={CreateTask} onEnter = {this.checkAuthenticate.bind(this)}> 
             </Route>
             <Route path='/routines/:id'
                    component={Routine}
                    test={[1, 2, 3]}
-            />
+                   onEnter = {this.checkAuthenticate.bind(this)}/>
             <Route  path='/create-routine'
-                    component={CreateRoutine}>
+                    component={CreateRoutine}
+                    onEnter = {this.checkAuthenticate.bind(this)}>
             </Route>
             <Route  path='/create-task'
-                    component={CreateTask}>
+                    component={CreateTask}
+                    onEnter = {this.checkAuthenticate.bind(this)}>
             </Route>
             <Route path='/tasks/:id'
                    component={Task}
-            />
+                   onEnter = {this.checkAuthenticate.bind(this)}/>
+            <Route path='/login' component= {LogIn}/>
+            <Route path='/signup' component={SignUp}/>
           </Router>
         </MuiThemeProvider>
       </div>
