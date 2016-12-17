@@ -1,9 +1,8 @@
 import React from 'react';
-<<<<<<< 41873f1f7161c6be9ab8b4a93941b48d26ba2372
+
 // import TestComponent from './test-component.react';
 import PreAuthNav from '../routine/pre-auth-nav.react';
-=======
->>>>>>> Add theme technology, including tweens, add some basic themes (green, blue, pink)
+
 import Routine from '../routine/routine.react';
 import CreateRoutine from '../routine/create-routine.react';
 import MyRoutines from '../routine/my-routines.react';
@@ -26,7 +25,7 @@ export default class Application extends React.Component {
     super(props);
 
     this.state = {
-      color: ''
+      color: 'green'
     }
 
     this.colorChange = this.colorChange.bind(this);
