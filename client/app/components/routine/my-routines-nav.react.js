@@ -69,7 +69,7 @@ export default class MyRoutinesNav extends React.Component {
               <Reorder/>
             </IconButton>
             <Link to='/'>
-              <ToolbarTitle style={logoStyle} text="DinoTask"/>
+              <ToolbarTitle style={logoStyle} text="DinoParrotTask"/>
             </Link>
             <RaisedButton primary={true} icon={< ColorLens />} onClick={this.toggleThemePop}/>
               <div className={"style-popout " + (this.state.themePop ? 'show' : 'hidden')}>

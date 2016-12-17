@@ -16,12 +16,12 @@ export default class PreAuthNav extends React.Component {
       fontWeight: 'bold',
       fontSize: 30,
       color: '#FFFFFF',
-      paddingLeft:'44%'
+      paddingLeft:'41%'
     };
       return (
         <div>
             <Toolbar>
-            <ToolbarTitle style = {logoStyle} firstChild={true} text={(window.location.pathname==='/signup')?'DinoTask':''}/>
+            <ToolbarTitle style = {logoStyle} firstChild={true} text={(window.location.pathname==='/signup')?'DinoParrotTask':''}/>
               <ToolbarGroup lastChild={true}>
               <Link to="/signup" style = {{marginRight:'1em'}}>
                 <RaisedButton

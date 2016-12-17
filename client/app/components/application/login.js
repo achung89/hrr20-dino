@@ -53,7 +53,7 @@ export default class LogIn extends React.Component {
           browserHistory.push('/');
       },
       error:function() {
-          alert('Username or Password ');
+          alert('Invalid Username or Password ');
           browserHistory.push('/login');
         }
     })
@@ -79,7 +79,7 @@ export default class LogIn extends React.Component {
       textAlign:'center'
     }
     const app = {
-      paddingRight:'32%',
+      paddingRight:'5%',
       fontSize: '3em',
       paddingTop:'3%'
     }
@@ -94,7 +94,8 @@ export default class LogIn extends React.Component {
       fontWeight: 'bold',
       fontSize: 30,
       color: '#FFFFFF',
-      paddingLeft:'45%'
+      paddingLeft:'20%',
+      align:'center'
     };
     return (
       <div>
@@ -102,7 +103,7 @@ export default class LogIn extends React.Component {
         <div style={marginLeft}>
 
         <Paper style={paperStyle} zDepth={4}>
-        <AppBar style={app} titleStyle={logoStyle} showMenuIconButton={false} title='DinoTask'/>
+        <AppBar style={app} titleStyle={logoStyle} showMenuIconButton={false} title='DinoParrotTask'/>
           {/* insert onTapTouch for FlatButton */}
           <form style={form} onSubmit={this.submitForm.bind(this)}>
             <TextField style={center} style={input} type='text' value={this.state.username} onChange={(e)=>{this.setState({username: e.target.value});}} hintText='Username'/>

@@ -67,7 +67,7 @@ export default class SignUp extends React.Component {
   render() {
     const paperStyle = {
       float: 'center',
-      height: 500,
+      height: 465,
       width: 380,
       margin: 30,
       overflow: 'auto',
