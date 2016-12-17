@@ -21,7 +21,6 @@ import TextField from 'material-ui/TextField';
 import Refresh from 'material-ui/svg-icons/navigation/refresh';
 import { Link } from 'react-router';
 import RaisedButton from 'material-ui/RaisedButton';
-import update from 'react-addons-update';
 
 export default class Routine extends React.Component {
   constructor(props) {
