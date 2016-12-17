@@ -12,6 +12,7 @@ module.exports = {
         start_time: req.body.start_time,
         end_time: req.body.end_time,
         repeat: req.body.repeat,
+        userId: req.session.user._id,
         completed: req.body.completed,
         _creator: req.body.userId,
         tasks: req.body.tasks
@@ -40,8 +41,13 @@ module.exports = {
 
   //Gets the routines for the current user
   getMyRoutines: function(req, res, next) {
-
-    db.Routine.find((err, data)=>{
+    var query;
+    if(req.session.user){
+      query = {userId:req.session.user._id};
+    }else{
+      query = {};
+    }
+    db.Routine.find(query, (err, data)=>{
       if (err) console.log(err);
       console.log('sending data back', data);
       res.send(data);

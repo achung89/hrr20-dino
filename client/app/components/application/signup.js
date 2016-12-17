@@ -59,11 +59,6 @@ export default class SignUp extends React.Component {
     })
   }
 
-  handleChange(event) {
-
-
-  }
-
   render() {
     const paperStyle = {
       float: 'center',
