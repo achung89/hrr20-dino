@@ -12,6 +12,7 @@ import { Link, Router, Route, browserHistory } from 'react-router';
 import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
+import AppBar from 'material-ui/AppBar';
 // flux
 // import RoutineStore from '../../flux/stores/routine-store';
 // import TaskStore from '../../flux/stores/task-store';
@@ -26,7 +27,8 @@ export default class SignUp extends React.Component {
     super(props);
     this.state = {
       username:'',
-      password:''
+      password:'',
+      passwordRepeat:''
     };
     this.submitForm.bind(this);
   }
@@ -48,11 +50,11 @@ export default class SignUp extends React.Component {
       data: this.state,
       success:function() {
           browserHistory.push('/');
-          console.log("DONE!");
+
       },
       error:function() {
           browserHistory.push('/login');
-          console.log('lololol');
+
         }
     })
   }
@@ -65,26 +67,53 @@ export default class SignUp extends React.Component {
   render() {
     const paperStyle = {
       float: 'center',
-      height: 300,
-      width: 300,
+      height: 465,
+      width: 380,
       margin: 30,
       overflow: 'auto',
-      align:'center'
+      align: 'center'
     };
     const center = {
-      textAlign: "center"
+      align: "center",
+    };
+    const marginLeft = {
+      marginLeft:'35%'
     }
+    const textAlign = {
+      textAlign:'center'
+    }
+    const app = {
+      paddingRight:'32%',
+      fontSize: '3em',
+      paddingTop:'3%'
+    }
+    const form = {
+      margin: '1em',
+      textAlign:'center'
+    }
+    const input = {
+      margin:'1em'
+    }
+    const logoStyle = {
+      fontWeight: 'bold',
+      fontSize: 30,
+      color: '#FFFFFF',
+      paddingLeft:'45%'
+    };
     return (
-      <div>
+        <div>
       <PreAuthNav />
-      <div>
-        <Paper style={center} style={paperStyle} zDepth={4}>
+      <div style={marginLeft}>
+
+        <Paper style={paperStyle} zDepth={4}>
+        <AppBar style={app} titleStyle={logoStyle} showMenuIconButton={false} title='Sign Up'/>
           {/* insert onTapTouch for FlatButton */}
-          <h1 style={center}>Sign Up</h1>
-          <form style={center} onSubmit={this.submitForm.bind(this)}>
-            <TextField style={center} type='text' value={this.state.username} onChange={(e)=>{this.setState({username: e.target.value});}} placeholder='username'/>
-            <TextField style={center}type='text' value={this.state.password} onChange={(e)=>{this.setState({password: e.target.value});}} placeholder='password'/>
-            <RaisedButton style={center}type='submit'>Sign in</RaisedButton>
+          <form style={form} onSubmit={this.submitForm.bind(this)}>
+            <TextField style={center} style={input} type='text' value={this.state.username} onChange={(e)=>{this.setState({username: e.target.value});}} hintText='Username'/>
+            <TextField style={center} style={input} type='password' value={this.state.password} onChange={(e)=>{this.setState({password: e.target.value});}} hintText='Password'/>
+             <TextField style={center} style={input} type= 'password' value={this.state.passwordRepeat} errorText={(this.state.password!==this.state.passwordRepeat)&&"Passwords do not match"} onChange={(e)=>{this.setState({passwordRepeat: e.target.value});}} hintText='Re-type Password'/>
+            <RaisedButton primary={true} style={textAlign} style={input} type='submit'label='Sign Up' disabled={this.state.password!==this.state.passwordRepeat}/>
+
           </form>
         </Paper>
       </div>

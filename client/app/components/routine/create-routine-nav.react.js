@@ -25,11 +25,9 @@ export default class CreateRoutineNav extends React.Component {
       data: this.state,
       success:function() {
           browserHistory.push('/login');
-          console.log("DONE!");
-        },
+      },
       error:function() {
           browserHistory.push('/login');
-          console.log('lololol');
       }
     })
   }
@@ -52,7 +50,7 @@ export default class CreateRoutineNav extends React.Component {
               <Reorder />
             </IconButton>
             <Link to='/'>
-              <ToolbarTitle style={logoStyle} text="DinoTask" />
+              <ToolbarTitle style={logoStyle} text="DinoParrotTask" />
             </Link>
           </ToolbarGroup>
           <ToolbarGroup lastChild={true}>

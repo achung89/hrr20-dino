@@ -12,6 +12,8 @@ import TextField from 'material-ui/TextField';
 import { Link, Router, Route, browserHistory } from 'react-router';
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
+import MyRoutinesNav from '../routine/my-routines-nav.react.js';
+import AppBar from 'material-ui/AppBar';
 
 // flux
 // import RoutineStore from '../../flux/stores/routine-store';
@@ -49,11 +51,10 @@ export default class LogIn extends React.Component {
       data: this.state,
       success:function() {
           browserHistory.push('/');
-          console.log("DONE!");
-        },
+      },
       error:function() {
+          alert('Invalid Username or Password ');
           browserHistory.push('/login');
-          console.log('lololol');
         }
     })
   }
@@ -62,29 +63,55 @@ export default class LogIn extends React.Component {
   render() {
     const paperStyle = {
       float: 'center',
-      height: 300,
-      width: 300,
+      height: 350,
+      width: 380,
       margin: 30,
       overflow: 'auto',
       align: 'center'
     };
     const center = {
-      textAlign: "center"
+      align: "center",
+    };
+    const marginLeft = {
+      marginLeft:'35%'
     }
+    const textAlign = {
+      textAlign:'center'
+    }
+    const app = {
+      paddingRight:'5%',
+      fontSize: '3em',
+      paddingTop:'3%'
+    }
+    const form = {
+      margin: '1em',
+      textAlign:'center'
+    }
+    const input = {
+      margin:'1em'
+    }
+    const logoStyle = {
+      fontWeight: 'bold',
+      fontSize: 30,
+      color: '#FFFFFF',
+      paddingLeft:'20%',
+      align:'center'
+    };
     return (
       <div>
-      <PreAuthNav />
-      <div style={center}>
-        <Paper style={center} style={paperStyle} zDepth={4}>
+        <PreAuthNav />
+        <div style={marginLeft}>
+
+        <Paper style={paperStyle} zDepth={4}>
+        <AppBar style={app} titleStyle={logoStyle} showMenuIconButton={false} title='DinoParrotTask'/>
           {/* insert onTapTouch for FlatButton */}
-          <h1 style={center}>Log In</h1>
-          <form style={center} onSubmit={this.submitForm.bind(this)}>
-            <TextField style={center} type='text' value={this.state.username} onChange={(e)=>{this.setState({username: e.target.value});}} placeholder='username'/>
-            <TextField style={center} type='text' value={this.state.password} onChange={(e)=>{this.setState({password: e.target.value});}} placeholder='password'/>
-            <RaisedButton style={center} type='submit'>Log in</RaisedButton>
+          <form style={form} onSubmit={this.submitForm.bind(this)}>
+            <TextField style={center} style={input} type='text' value={this.state.username} onChange={(e)=>{this.setState({username: e.target.value});}} hintText='Username'/>
+            <TextField style={center} style={input} type= 'password' value={this.state.password} onChange={(e)=>{this.setState({password: e.target.value});}} hintText='Password'/>
+
+            <RaisedButton primary={true} style={textAlign} style={input} type='submit'label='Log In' />
 
           </form>
-          <div style={center}><Link to='/signup'><u>Not a user? Click here to sign up</u></Link></div>
         </Paper>
       </div>
       </div>
