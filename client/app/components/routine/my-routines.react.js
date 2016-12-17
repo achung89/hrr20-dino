@@ -13,16 +13,6 @@ import {Link} from 'react-router';
 
 import data from '../../utils/api-utils';
 
-import Task from '../task/task.react.js';
-// flux
-// import RoutineStore from '../../flux/stores/routine-store';
-// import TaskStore from '../../flux/stores/task-store';
-// import RoutineActions from '../../flux/actions/routine-actions';
-
-//
-// RoutineStore.useMockData();
-// TaskStore.useMockData();
-
 export default class MyRoutines extends React.Component {
   constructor(props) {
     super(props);
@@ -35,18 +25,7 @@ export default class MyRoutines extends React.Component {
   }
 
   componentDidMount() {
-    // RoutineStore.getData();
     this.getRoutineData();
-    // this.getTaskData();
-    // this.forceUpdate();
-    //
-    // RoutineStore.addChangeListener(this.getRoutineData.bind(this));
-    // TaskStore.addChangeListener(this.getTaskData.bind(this));
-  }
-
-  componentWillUnmount() {
-    // RoutineStore.removeChangeListener(this.getRoutineData);
-    // TaskStore.removeChangeListener(this.getTaskData);
   }
 
   getRoutineData() {
@@ -56,19 +35,6 @@ export default class MyRoutines extends React.Component {
         routines: data
       });
     });
-  }
-
-  getTaskData() {
-    TaskStore.get().then((data) => {
-      this.setState({tasks: data.collection});
-    });
-  }
-
-  findTasksForRoutine(routine) {
-    return routine.tasks;
-    // return this.state.tasks.filter((task) => {
-    //   return task.routineId === routine._id;
-    // });
   }
 
   handleRemoveRoutine(id) {
