@@ -19,7 +19,7 @@ export default class Application extends React.Component {
     super(props);
 
     this.state = {
-      color: ''
+      color: 'green'
     }
 
     this.colorChange = this.colorChange.bind(this);
