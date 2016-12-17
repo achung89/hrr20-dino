@@ -8,7 +8,7 @@ import AddCircleOutline from 'material-ui/svg-icons/content/add-circle-outline';
 import IconButton from 'material-ui/IconButton';
 import Reorder from 'material-ui/svg-icons/action/reorder';
 import * as Colors from 'material-ui/styles/colors';
-import {Link} from 'react-router';
+import {Link, browserHistory} from 'react-router';
 import * as themes from '../theme/theme';
 
 
@@ -33,6 +33,7 @@ export default class MyRoutinesNav extends React.Component {
       themePop: !this.state.themePop
     })
   }
+
   logout(e) {
     e.preventDefault();
     console.log(this.state);
