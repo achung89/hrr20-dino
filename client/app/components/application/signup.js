@@ -104,10 +104,30 @@ export default class SignUp extends React.Component {
         <AppBar style={app} titleStyle={logoStyle} showMenuIconButton={false} title='Sign Up'/>
           {/* insert onTapTouch for FlatButton */}
           <form style={form} onSubmit={this.submitForm.bind(this)}>
-            <TextField style={center} style={input} type='text' value={this.state.username} onChange={(e)=>{this.setState({username: e.target.value});}} hintText='Username'/>
-            <TextField style={center} style={input} type='password' value={this.state.password} onChange={(e)=>{this.setState({password: e.target.value});}} hintText='Password'/>
-             <TextField style={center} style={input} type= 'password' value={this.state.passwordRepeat} errorText={(this.state.password!==this.state.passwordRepeat)&&"Passwords do not match"} onChange={(e)=>{this.setState({passwordRepeat: e.target.value});}} hintText='Re-type Password'/>
-            <RaisedButton primary={true} style={textAlign} style={input} type='submit'label='Sign Up' disabled={this.state.password!==this.state.passwordRepeat}/>
+            <TextField  style={center}
+                        style={input}
+                        type='text'
+                        value={this.state.username}
+                        errorText={(!(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/).test(this.state.username)&&this.state.username.length!==0)&&'Please enter valid e-mail address'}
+                        onChange={(e)=>{this.setState({username: e.target.value});}}
+                        hintText='E-mail Address'/>
+            <TextField  style={center}
+                        style={input}
+                        type='password'
+                        value={this.state.password}
+                        onChange={(e)=>{this.setState({password: e.target.value});}}
+                        hintText='Password'/>
+             <TextField style={center}
+                        style={input} type= 'password'
+                        value={this.state.passwordRepeat}
+                        errorText={(this.state.password!==this.state.passwordRepeat)&&"Passwords do not match"}
+                        onChange={(e)=>{this.setState({passwordRepeat: e.target.value});}}
+                        hintText='Re-type Password'/>
+            <RaisedButton primary={true}
+                          style={textAlign}
+                          style={input} type='submit'
+                          label='Sign Up'
+                          disabled={(this.state.password!==this.state.passwordRepeat || this.state.password==='')||!(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/).test(this.state.username)}/>
 
           </form>
         </Paper>
