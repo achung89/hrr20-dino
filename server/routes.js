@@ -27,10 +27,6 @@ module.exports = function(app, express) {
     .delete(userController.deleteAUser);
 
   //all the routes for routines
-  // router.route('/routines')
-  //   .get(routineController.getMyRoutines)
-  //   .post(routineController.addRoutine);
-
   router.route('/routines')
     .get(routineController.getMyRoutines)
     .post(routineController.addARoutine)
@@ -39,6 +35,10 @@ module.exports = function(app, express) {
   router.route('/routines/:userId/:routineId')
     .get(routineController.getARoutine)
     .delete(routineController.deleteARoutine)
+
+  //route for Email-submissions.
+    router.route('/api/email')
+      .post(routineController.addEmailedRoutine);  
 
 
   //all the routes for tasks

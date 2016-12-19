@@ -5,7 +5,6 @@ const db = require('../../../database/db_m.js');
 module.exports = {
   //Adds a user's routine to the Routine table
   addARoutine: function (req, res, next) {
-    // console.log('routine adding, req', req.body);
     let routine = {
         name: req.body.name,
         description: req.body.description,
@@ -14,29 +13,13 @@ module.exports = {
         repeat: req.body.repeat,
         userId: req.session.user._id,
         completed: req.body.completed,
-        _creator: req.body.userId,
+        // _creator: req.body.userId,
         tasks: req.body.tasks
     }
-    // console.log("The thing is being made")
     db.Routine.create(routine, (err, resp) => {
       if (err) console.log(err);
-      // console.log('DB updated with: ', resp);
       res.status(201).send(resp);
     });
-    // Models.Routine.build({
-    //   name: req.body.name,
-    //   description: req.body.description,
-    //   start_time: req.body.start_time,
-    //   end_time: req.body.end_time,
-    //   repeat: req.body.repeat,
-    //   completed: req.body.completed
-    // }).save()
-    // .then(function(){
-    //   res.status(201).send('Successfully created routine!')
-    // })
-    // .catch(function(error){
-    //   res.status(404).send(error);
-    // })
   },
 
   //Gets the routines for the current user
@@ -49,20 +32,56 @@ module.exports = {
     }
     db.Routine.find(query, (err, data)=>{
       if (err) console.log(err);
-      // console.log('sending data back', data);
       res.send(data);
     });
-    // Models.Routine.findAll({
-    //   where: {
-    //     userId: req.params.userId
-    //   }
-    // })
-    // .then(function(routines){
-    //   res.status(200).json(routines);
-    // })
-    // .catch(function(error) {
-    //   res.send(error);
-    // });
+  },
+
+  addEmailedRoutine: function(req, res) {
+    var email = /\<(.*)\>/.exec(req.body.headers.From)[1];
+    var name = req.body.headers.Subject;
+    // get array with tasks/repeat split out.
+    var bodyArray = /Days\:(.*)\n\nTasks\:\n([\S\s]*)/.exec(req.body.plain);
+
+    // trim out blank tasks
+    var tasks = bodyArray[2]
+      .split('\n')
+      .reduce((m, i)=>{
+        if (i!=='') {
+          m.push(i);
+        }
+        return m;
+      }, []);
+
+    // parse days to boolean for repeats.
+    var repeat = {
+      Sunday: /.*sun.*/i.test(bodyArray[1]),
+      Monday: /.*mon.*/i.test(bodyArray[1]),
+      Tuesday: /.*tue.*/i.test(bodyArray[1]),
+      Wednesday: /.*wed.*/i.test(bodyArray[1]),
+      Thursday: /.*thu.*/i.test(bodyArray[1]),
+      Friday: /.*fri.*/i.test(bodyArray[1]),
+      Saturday: /.*sat.*/i.test(bodyArray[1])
+    };
+
+    db.User.findOne({name: email}, (err, data)=>{
+      var user = data;
+      //console.log('User found:', user);
+      var newRoutine = {
+        userId: user._id,
+        name: name,
+        description: 'Created from email',
+        repeat: repeat,
+        completed: false,
+        tasks: tasks
+      }
+
+      db.Routine.create(newRoutine, (err, resp) => {
+        if (err) console.log(err);
+        res.status(200).send(resp);
+      });
+    });
+
+    // res.sendStatus(200);
   },
 
   //Gets a single routine for a user
