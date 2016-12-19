@@ -20,12 +20,17 @@ export default class MyRoutines extends React.Component {
     this.state = {
       routines: [],
       tasks: [],
-      strikeStyle: {textDecoration: 'none'}
+      strikeStyle: {textDecoration: 'none'},
     };
+    this.getRoutineData = this.getRoutineData.bind(this);
   }
 
   componentDidMount() {
     this.getRoutineData();
+    // check for updates every 2 seconds, in case of emailed routine.
+    // Using setstate makes this invisible to user (hopefully), but maybe taxing on db at scale.
+    var update = setInterval(this.getRoutineData, 2000);
+    this.setState({update: update});
   }
 
   getRoutineData() {
