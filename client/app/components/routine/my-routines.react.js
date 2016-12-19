@@ -74,63 +74,57 @@ export default class MyRoutines extends React.Component {
 
   handleDrop(routineId, position) {
 
-    console.log('position',position);
-    var refs = Object.keys(this.refs);
+
     var arr = JSON.parse(JSON.stringify(this.state.routines));
     var routinePositions = this.state.routinePositions;
     var draggedLeft = this.getCoords(routineId).left;
     var draggedTop = this.getCoords(routineId).top;
-    for(var a = 0; a < refs.length; a++) {
 
-      if(refs[a]!==routineId) {
-        var mid = (routinePositions[refs[a]].left-180)
-        if(Math.abs(draggedLeft-mid)<180&&){
-          var movedObjectIndex = this.arrayObjectIndexOf(arr,routineId);
-          console.log('1');
-          var currentObjectIndex = this.arrayObjectIndexOf(arr, refs[a]);
-          console.log('2');
-          arr.splice(currentObjectIndex,0,arr.splice(movedObjectIndex,1)[0]);
-          console.log(arr);
-          this.setState({
-            routines: []
-          })
-          this.setState({
-            routines:arr
-          })
-          console.log('4');
-          return;
-        }
-      }
+    var inserted = this.insertRoutine(routineId,draggedTop,draggedLeft,routinePositions,arr,-180,'left',0);
+    if(inserted ==='inserted'){
+      return;
     }
     var draggedRight = this.getCoords(routineId).right;
+
+    var inserted = this.insertRoutine(routineId,draggedTop,draggedRight,routinePositions,arr,180,'right',1);
+    if(inserted === 'inserted'){
+      return;
+    }
+    this.setState({
+        routines:[]
+    });
+    this.setState({
+      routines:arr
+    });
+  }
+
+  insertRoutine(routineId,draggedTop, draggedHorizonal, routinePositions,arr,offset,orientation,shift){
+    var refs = Object.keys(this.refs);
     for(var a = 0; a < refs.length; a++) {
       if(refs[a]!==routineId) {
-        var mid = (routinePositions[refs[a]].right+180)
-        if(Math.abs(draggedRight-mid)<180){
-          var movedObjectIndex = this.arrayObjectIndexOf(arr,routineId);
-          console.log('1');
-          var currentObjectIndex = this.arrayObjectIndexOf(arr, refs[a]);
-          console.log('2');
-          arr.splice(currentObjectIndex+1,0,arr.splice(movedObjectIndex,1)[0]);
-          console.log(arr);
-          this.setState({
-            routines: []
-          })
-          this.setState({
-            routines:arr
-          })
-          console.log('4');
-          return;
+        var mid = (routinePositions[refs[a]][orientation]+offset);
+        var top = (routinePositions[refs[a]].top);
+        if(Math.abs(draggedHorizonal-mid)<180 && Math.abs(top-draggedTop)<150) {
+          return this.insertMovedRoutine(arr,routineId,refs[a],shift);
         }
       }
     }
   }
 
-  storeStart(routineId){
+  insertMovedRoutine(arr,routineId,refs,shift) {
+    var movedObjectIndex = this.arrayObjectIndexOf(arr,routineId);
+    var movedObject = arr.splice(movedObjectIndex,1)[0];
+    var currentObjectIndex = this.arrayObjectIndexOf(arr, refs);
+    arr.splice(currentObjectIndex+shift,0,movedObject);
     this.setState({
-      draggingRoutine: this.state.routinePositions[routineId]
+      routines: []
     })
+    this.setState({
+      routines:arr
+    })
+    return 'inserted';
   }
+
 
   render() {
     const paperStyle = {
