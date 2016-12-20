@@ -13,7 +13,6 @@ import {Link} from 'react-router';
 import Draggable from 'react-draggable';
 import data from '../../utils/api-utils';
 import ReactDOM from 'react-dom';
-import { SortablePane, Pane } from 'react-sortable-pane';
 export default class MyRoutines extends React.Component {
   constructor(props) {
     super(props);
@@ -25,6 +24,12 @@ export default class MyRoutines extends React.Component {
       routinePositions:{},
     };
     this.getRoutineData = this.getRoutineData.bind(this);
+    this.insertRoutine = this.insertRoutine.bind(this);
+    this.handleDrop = this.handleDrop.bind(this);
+    this.arrayObjectIndexOf = this.arrayObjectIndexOf.bind(this);
+    this.storeCoordinates = this.storeCoordinates.bind(this);
+    this.insertMovedRoutine = this.insertMovedRoutine.bind(this);
+
   }
 
   componentDidMount() {
@@ -32,8 +37,10 @@ export default class MyRoutines extends React.Component {
     this.getRoutineData();
     // check for updates every 2 seconds, in case of emailed routine.
     // Using setstate makes this invisible to user (hopefully), but maybe taxing on db at scale.
-    var update = setInterval(this.getRoutineData, 2000);
-    this.setState({update: update});
+    var update = setInterval(()=>{
+                                  this.getRoutineData;
+                                  this.setState({update: update});}, 2000);
+
   }
 
   componentDidUpdate(){
@@ -90,6 +97,7 @@ export default class MyRoutines extends React.Component {
     if(inserted === 'inserted'){
       return;
     }
+
     this.setState({
         routines:[]
     });
@@ -100,6 +108,7 @@ export default class MyRoutines extends React.Component {
 
   insertRoutine(routineId,draggedTop, draggedHorizonal, routinePositions,arr,offset,orientation,shift){
     var refs = Object.keys(this.refs);
+    console.log('this is refs',refs)
     for(var a = 0; a < refs.length; a++) {
       if(refs[a]!==routineId) {
         var mid = (routinePositions[refs[a]][orientation]+offset);
@@ -122,8 +131,26 @@ export default class MyRoutines extends React.Component {
     this.setState({
       routines:arr
     })
+    // this.insertRoutineDB(routineId,refs);
     return 'inserted';
   }
+
+  // insertRoutineDB(routineMoved,routineCurr){
+  //   $.ajax({
+  //     type:'PUT',
+  //     url:'/reinsert',
+  //     data:{
+  //       routineMoved:routineMoved,
+  //       routineCurr:routineCurr
+  //     },
+  //     success:function(){
+  //       console.log('inserted');
+  //     },
+  //     error:function(){
+  //       console.log('not inserted');
+  //     }
+  //   })
+  // }
 
 
   render() {
@@ -141,7 +168,6 @@ export default class MyRoutines extends React.Component {
           return (
             <Draggable
               ref={routine._id}
-              onStart= {()=>{this.storeStart(routine._id)}}
               onStop= {()=>{this.handleDrop(routine._id)}}
               >
               <Paper key={routine._id} style={paperStyle} zDepth={4}>

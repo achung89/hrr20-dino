@@ -15,7 +15,7 @@ module.exports = function(app, express) {
   router.route('/login').get(auth.loginUser);
   router.route('/signup').post(auth.signupUser);
   router.route('/logout').get(auth.logoutUser);
-
+  // router.route('/reinsert').put(routineController.swapRoutine)
   //all the routes for users
   router.route('/users')
     .get(userController.getAllUsers)
@@ -38,7 +38,7 @@ module.exports = function(app, express) {
 
   //route for Email-submissions.
     router.route('/api/email')
-      .post(routineController.addEmailedRoutine);  
+      .post(routineController.addEmailedRoutine);
 
 
   //all the routes for tasks
