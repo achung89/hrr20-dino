@@ -9,7 +9,7 @@ import Divider from 'material-ui/Divider';
 import IconButton from 'material-ui/IconButton';
 import Checkbox from 'material-ui/Checkbox';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
-import {Link} from 'react-router';
+import {Link, browserHistory} from 'react-router';
 import Draggable from 'react-draggable';
 import data from '../../utils/api-utils';
 import ReactDOM from 'react-dom';
@@ -163,22 +163,34 @@ export default class MyRoutines extends React.Component {
     };
 
     return (
+
       <div>
+
+
         <MyRoutinesNav colorChange={this.props.colorChange}/> {this.state.routines.map((routine) => {
           return (
-            <Draggable
-              ref={routine._id}
-              onStop= {()=>{this.handleDrop(routine._id)}}
-              >
+
+              <div>
+                <Draggable
+                ref={routine._id}
+                onStop= {()=>{setTimeout(()=>{this.handleDrop(routine._id)},1)}}
+                >
               <Paper key={routine._id} style={paperStyle} zDepth={4}>
                 {/* insert onTapTouch for FlatButton */}
-                <AppBar title={routine.name} titleStyle={{
-                  fontSize: 18
-                }} iconElementLeft={< IconButton onClick = {
-                  this.handleRemoveRoutine.bind(this, routine._id)
-                } > <NavigationClose/> < /IconButton>} iconElementRight={< Link params = {{ id: routine._id }}to = {
-                  `/routines/${routine._id}`
-                } > <IconButton><Launch/></IconButton> < /Link>}/>
+                <AppBar title={routine.name}
+                        titleStyle={{fontSize: 18}}
+                        iconElementLeft={<IconButton onClick = {this.handleRemoveRoutine.bind(this, routine._id)}>
+                                          <NavigationClose/>
+                                         </IconButton>}
+                        iconElementRight={< Link params = {{ id: routine._id }} to = {`/routines/${routine._id}`} >
+                                            <IconButton><Launch/></IconButton>
+                                          </Link>}
+                        onRightIconButtonTouchTap={()=>{
+                                                          browserHistory.push(
+                                                              `/routines/${routine._id}`,
+                                                            {id: routine._id}
+                                                          )
+                                                          }}/>
                 <div className="day-quickview text-justify">
                   <span className={routine.repeat['Sunday']
                     ? 'day-view-on'
@@ -217,7 +229,9 @@ export default class MyRoutines extends React.Component {
                   })}
                 </List>
               </Paper>
-            </Draggable>
+                </Draggable>
+              </div>
+
           );
         })}
       </div>
