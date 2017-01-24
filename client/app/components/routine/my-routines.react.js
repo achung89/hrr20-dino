@@ -191,6 +191,7 @@ export default class MyRoutines extends React.Component {
                                                             {id: routine._id}
                                                           )
                                                           }}/>
+
                 <div className="day-quickview text-justify">
                   <span className={routine.repeat['Sunday']
                     ? 'day-view-on'
@@ -231,7 +232,6 @@ export default class MyRoutines extends React.Component {
               </Paper>
                 </Draggable>
               </div>
-
           );
         })}
       </div>
