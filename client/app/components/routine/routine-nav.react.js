@@ -8,6 +8,8 @@ import IconButton from 'material-ui/IconButton';
 import Reorder from 'material-ui/svg-icons/action/reorder';
 import * as Colors from 'material-ui/styles/colors';
 
+import { Link,browserHistory } from 'react-router';
+
 export default class Routine extends React.Component {
   constructor(props) {
     super(props);
@@ -15,7 +17,21 @@ export default class Routine extends React.Component {
 
     };
   }
-
+  logout(e) {
+    e.preventDefault();
+    console.log(this.state);
+    $.ajax({
+      type:'GET',
+      url:'/logout',
+      data: this.state,
+      success:function() {
+          browserHistory.push('/login');
+        },
+      error:function() {
+          browserHistory.push('/login');
+      }
+    })
+  }
   render() {
     const logoStyle = {
       fontWeight: 'bold',
@@ -34,29 +50,19 @@ export default class Routine extends React.Component {
             <IconButton>
               <Reorder />
             </IconButton>
-            <ToolbarTitle style={logoStyle} text="DinoTask" />
+            <Link to='/'>
+              <ToolbarTitle style={logoStyle} text="DinoParrotTask" />
+            </Link>
           </ToolbarGroup>
           <ToolbarGroup lastChild={true}>
-            {/* insert onClick/onTapTouch to ArrowBack */}
-            <ArrowBack
-              />
-            {/* insert Routine name in text */}
-            <ToolbarTitle style={titleStyle} text="Routine" />
-            {/* insert onClick/onTapTouch to RaisedButton */}
-            <RaisedButton
-              label="Create Task"
-              labelPosition="before"
-              primary={true}
-              icon={<AddCircleOutline />}
-              />
+            <ToolbarTitle style={titleStyle} text="Update Your Routine Here!" />
             <ToolbarSeparator />
-            {/* insert onClick/onTapTouch to RaisedButton */}
             <RaisedButton
               label="Logout"
               labelPosition="before"
               primary={true}
               icon={<PowerSettingsNew />}
-              />
+              onClick={this.logout.bind(this)}/>
           </ToolbarGroup>
         </Toolbar>
       </div>
