@@ -6,7 +6,7 @@ import PowerSettingsNew from 'material-ui/svg-icons/action/power-settings-new';
 import IconButton from 'material-ui/IconButton';
 import Reorder from 'material-ui/svg-icons/action/reorder';
 import * as Colors from 'material-ui/styles/colors';
-import { Link } from 'react-router';
+import { Link,browserHistory } from 'react-router';
 
 
 export default class CreateRoutineNav extends React.Component {
@@ -16,7 +16,21 @@ export default class CreateRoutineNav extends React.Component {
 
     };
   }
-
+  logout(e) {
+    e.preventDefault();
+    console.log(this.state);
+    $.ajax({
+      type:'GET',
+      url:'/logout',
+      data: this.state,
+      success:function() {
+          browserHistory.push('/login');
+      },
+      error:function() {
+          browserHistory.push('/login');
+      }
+    })
+  }
   render() {
     const logoStyle = {
       fontWeight: 'bold',
@@ -36,7 +50,7 @@ export default class CreateRoutineNav extends React.Component {
               <Reorder />
             </IconButton>
             <Link to='/'>
-              <ToolbarTitle style={logoStyle} text="DinoTask" />
+              <ToolbarTitle style={logoStyle} text="DinoParrotTask" />
             </Link>
           </ToolbarGroup>
           <ToolbarGroup lastChild={true}>
@@ -50,7 +64,7 @@ export default class CreateRoutineNav extends React.Component {
               labelPosition="before"
               primary={true}
               icon={<PowerSettingsNew />}
-              />
+              onClick={this.logout.bind(this)}/>
           </ToolbarGroup>
         </Toolbar>
       </div>

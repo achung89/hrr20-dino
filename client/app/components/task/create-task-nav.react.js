@@ -8,6 +8,8 @@ import IconButton from 'material-ui/IconButton';
 import Reorder from 'material-ui/svg-icons/action/reorder';
 import * as Colors from 'material-ui/styles/colors';
 
+import { Link,browserHistory } from 'react-router';
+
 export default class CreateTaskNav extends React.Component {
   constructor(props) {
     super(props);
@@ -15,7 +17,21 @@ export default class CreateTaskNav extends React.Component {
 
     };
   }
-
+  logout(e) {
+    e.preventDefault();
+    console.log(this.state);
+    $.ajax({
+      type:'GET',
+      url:'/logout',
+      data: this.state,
+      success:function() {
+          browserHistory.push('/login');
+      },
+      error:function() {
+          browserHistory.push('/login');
+      }
+    })
+  }
   render() {
     const logoStyle = {
       fontWeight: 'bold',
@@ -51,7 +67,7 @@ export default class CreateTaskNav extends React.Component {
               labelPosition="before"
               primary={true}
               icon={<PowerSettingsNew />}
-              />
+              onClick={this.logout.bind(this)}/>
           </ToolbarGroup>
         </Toolbar>
       </div>

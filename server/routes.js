@@ -4,13 +4,18 @@ const path = require('path');
 const userController = require('./api/user/user.controller.js');
 const routineController = require('./api/routine/routine.controller.js');
 const taskController = require('./api/task/task.controller.js');
-
+var auth = require('./config/authenticate')
 
 module.exports = function(app, express) {
   var router = express.Router();
 
   //controller functions are in the controller.js of each folder in ./api/
+  router.route('/checkAuth').get(auth.checkUser);
 
+  router.route('/login').get(auth.loginUser);
+  router.route('/signup').post(auth.signupUser);
+  router.route('/logout').get(auth.logoutUser);
+  // router.route('/reinsert').put(routineController.swapRoutine)
   //all the routes for users
   router.route('/users')
     .get(userController.getAllUsers)
@@ -22,18 +27,18 @@ module.exports = function(app, express) {
     .delete(userController.deleteAUser);
 
   //all the routes for routines
-  // router.route('/routines')
-  //   .get(routineController.getMyRoutines)
-  //   .post(routineController.addRoutine);
-
   router.route('/routines')
     .get(routineController.getMyRoutines)
-    .post(routineController.addARoutine);
+    .post(routineController.addARoutine)
+    .put(routineController.updateARoutine);
 
   router.route('/routines/:userId/:routineId')
     .get(routineController.getARoutine)
-    .put(routineController.updateARoutine)
     .delete(routineController.deleteARoutine)
+
+  //route for Email-submissions.
+    router.route('/api/email')
+      .post(routineController.addEmailedRoutine);
 
 
   //all the routes for tasks

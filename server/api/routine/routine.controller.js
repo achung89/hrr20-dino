@@ -1,61 +1,87 @@
 const Promise = require('bluebird');
 // const Models = require('../../../database/database_config');
 const db = require('../../../database/db_m.js');
-
+var ObjectId = require('mongodb').ObjectID
 module.exports = {
   //Adds a user's routine to the Routine table
   addARoutine: function (req, res, next) {
-    //console.log('routine adding, req', req);
     let routine = {
         name: req.body.name,
         description: req.body.description,
         start_time: req.body.start_time,
         end_time: req.body.end_time,
         repeat: req.body.repeat,
+        userId: req.session.user._id,
         completed: req.body.completed,
-        _creator: req.body.userId,
+        // _creator: req.body.userId,
         tasks: req.body.tasks
     }
     db.Routine.create(routine, (err, resp) => {
       if (err) console.log(err);
-      console.log('DB updated with: ', resp);
       res.status(201).send(resp);
     });
-    // Models.Routine.build({
-    //   name: req.body.name,
-    //   description: req.body.description,
-    //   start_time: req.body.start_time,
-    //   end_time: req.body.end_time,
-    //   repeat: req.body.repeat,
-    //   completed: req.body.completed
-    // }).save()
-    // .then(function(){
-    //   res.status(201).send('Successfully created routine!')
-    // })
-    // .catch(function(error){
-    //   res.status(404).send(error);
-    // })
   },
 
   //Gets the routines for the current user
   getMyRoutines: function(req, res, next) {
-
-    db.Routine.find((err, data)=>{
+    var query;
+    if(req.session.user){
+      query = {userId:req.session.user._id};
+    }else{
+      query = {};
+    }
+    db.Routine.find(query, (err, data)=>{
       if (err) console.log(err);
-      console.log('sending data back', data);
       res.send(data);
     });
-    // Models.Routine.findAll({
-    //   where: {
-    //     userId: req.params.userId
-    //   }
-    // })
-    // .then(function(routines){
-    //   res.status(200).json(routines);
-    // })
-    // .catch(function(error) {
-    //   res.send(error);
-    // });
+  },
+
+  addEmailedRoutine: function(req, res) {
+    var email = /\<(.*)\>/.exec(req.body.headers.From)[1];
+    var name = req.body.headers.Subject;
+    // get array with tasks/repeat split out.
+    var bodyArray = /Days\:(.*)\n\nTasks\:\n([\S\s]*)/.exec(req.body.plain);
+
+    // trim out blank tasks
+    var tasks = bodyArray[2]
+      .split('\n')
+      .reduce((m, i)=>{
+        if (i!=='') {
+          m.push(i);
+        }
+        return m;
+      }, []);
+
+    // parse days to boolean for repeats.
+    var repeat = {
+      Sunday: /.*sun.*/i.test(bodyArray[1]),
+      Monday: /.*mon.*/i.test(bodyArray[1]),
+      Tuesday: /.*tue.*/i.test(bodyArray[1]),
+      Wednesday: /.*wed.*/i.test(bodyArray[1]),
+      Thursday: /.*thu.*/i.test(bodyArray[1]),
+      Friday: /.*fri.*/i.test(bodyArray[1]),
+      Saturday: /.*sat.*/i.test(bodyArray[1])
+    };
+
+    db.User.findOne({name: email}, (err, data)=>{
+      var user = data;
+      //console.log('User found:', user);
+      var newRoutine = {
+        userId: user._id,
+        name: name,
+        description: 'Created from email',
+        repeat: repeat,
+        completed: false,
+        tasks: tasks
+      }
+
+      db.Routine.create(newRoutine, (err, resp) => {
+        if (err) console.log(err);
+        res.status(200).send(resp);
+      });
+    });
+
+    // res.sendStatus(200);
   },
 
   //Gets a single routine for a user
@@ -94,5 +120,45 @@ module.exports = {
   updateARoutine: function(req, res, next) {
     //Syntax for this might be tricky, as we have to dynamically
     //update a user-specified routine property.
+    db.Routine.findByIdAndUpdate(req.body._id, req.body).exec((err, data)=>{
+      res.status(204).send(data);
+    });
   },
+  // swapRoutine: function(req,res,next){
+  //       var query;
+  //   if(req.session.user){
+  //     query = {userId:req.session.user._id};
+  //   }else{
+  //     query = {};
+  //   }
+  //   db.Routine.find(query, (err, data)=>{
+  //     if (err) {console.log(err);}
+  //     else{
+  //       console.log('whatami',req.body.routineMoved);
+  //       db.Routine.findOne({_id:ObjectId(req.body.routineMoved)},function(err,moved){
+  //         data.sort(function (a, b) {
+  //           if (a.seq > b.seq) {
+  //             return 1;
+  //           }
+  //           if (a.seq < b.seq) {
+  //             return -1;
+  //           }
+  //           // a must be equal to b
+  //           return 0;
+  //         });
+  //         for(var i = 0; i< data.length-1; i++){
+  //           if(moved.seq<data[i+1].seq && moved.seq>data[i].seq){
+  //             moved.seq = Math.floor((data[i+1].seq + data[i].seq)/2);
+  //           }
+  //         }
+  //         db.Routine.findByIdAndUpdate(moved._id, moved).exec((err, data)=>{
+  //           if(err){console.log(err)}
+  //           console.log('data',data)
+  //           res.status(204).send(data);
+  //         });
+  //       })
+  //     }
+
+  //   });
+  // }
 }

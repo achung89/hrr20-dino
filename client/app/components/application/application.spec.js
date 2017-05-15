@@ -1,5 +1,4 @@
 import React from 'react';
-import * as ReactTestUtils from 'react-addons-test-utils';
 import { mount, shallow } from 'enzyme';
 import { expect } from 'chai';
 import Application from './application.react';
