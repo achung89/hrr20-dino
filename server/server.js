@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(cors());
 app.options('*', cors());
-app.del('*', cors());
+app.delete('*', cors());
 
 app.use('/', router);
 app.listen(port, () => {
