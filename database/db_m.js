@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/dinotask');
+mongoose.connect('mongodb://heroku_1hgcxlwn:fbfssbc0g1idng25s217238au1@ds143141.mlab.com:43141/heroku_1hgcxlwn');
 
 
 // Routine document. Completed/end_time can be used for history purposes.
