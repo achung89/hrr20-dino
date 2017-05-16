@@ -6,7 +6,8 @@
   "license": "UNLICENSED",
   "main": "server/server.js",
   "scripts": {
-    "start": "export NODE_ENV=production && gulp build && node ./server/server.js",
+    "start": "export NODE_ENV=production && npm run prod",
+    "prod": "gulp build && node ./server/server.js",
     "test": "gulp test"
   },
   "devDependencies": {
