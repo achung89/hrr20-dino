@@ -32,7 +32,7 @@ var userSchema = new mongoose.Schema({
 
 userSchema.pre('save' , function(next) {
   console.log('hashing')
-  bcrypt.hash(this.password, null, (hash) => {
+  bcrypt.hash(this.password, null, null, (hash) => {
       console.log('hashed', hash);
       this.password = hash;
       next();
