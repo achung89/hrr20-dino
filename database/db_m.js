@@ -42,7 +42,7 @@ User.prototype.comparePassword = function(attemptedPassword, callback) {
 
 userSchema.pre('save' , function(next) {
   console.log('hashing')
-  cipher(this.password, null, (hash) => {
+  bcrypt.hash(this.password, null, (hash) => {
       console.log('hashed', hash);
       this.password = hash;
       next();
