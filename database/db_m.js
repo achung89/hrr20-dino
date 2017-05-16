@@ -30,6 +30,7 @@ var Routine = mongoose.model('routine', routineSchema);
 var User = mongoose.model('user', userSchema);
 
 User.prototype.comparePassword = function(attemptedPassword, callback) {
+  console.log('comparator', attemptedPassword, this.password)
   bcrypt.compare(attemptedPassword, this.password, function(error, isMatch) {
     if (error) {
       callback(error);

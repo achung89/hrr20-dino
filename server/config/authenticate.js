@@ -38,7 +38,7 @@ exports.loginUser = function(req, res) {
             if (match) {
               exports.createSession(req, res, user);
             } else {
-              console.log('password not match', user)
+              console.log('password not match', user, match)
               res.status(404).send(err);
             }
           });
