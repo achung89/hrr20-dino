@@ -41,11 +41,9 @@ User.prototype.comparePassword = function(attemptedPassword, callback) {
 };
 
 userSchema.pre('save' , function(next) {
-  var cipher = Promise.promisify(bcrypt.hash);
-  return cipher(this.password, null, null).bind(this)
-    .then(function(hash) {
+  return cipher(this.password, null, (hash) => {
+      console.log(hash);
       this.password = hash;
-      //assume that this is async
       next();
     });
 });
