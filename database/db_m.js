@@ -28,16 +28,7 @@ var userSchema = new mongoose.Schema({
 
 
 
-User.prototype.comparePassword = function(attemptedPassword, callback) {
-  console.log('comparator', attemptedPassword, this.password)
-  bcrypt.compare(attemptedPassword, this.password, function(error, isMatch) {
-    if (error) {
-      callback(error);
-    } else {
-      callback(null, isMatch);
-    }
-  });
-};
+
 
 userSchema.pre('save' , function(next) {
   console.log('hashing')
@@ -49,6 +40,16 @@ userSchema.pre('save' , function(next) {
 });
 var Routine = mongoose.model('routine', routineSchema);
 var User = mongoose.model('user', userSchema);
+User.prototype.comparePassword = function(attemptedPassword, callback) {
+  console.log('comparator', attemptedPassword, this.password)
+  bcrypt.compare(attemptedPassword, this.password, function(error, isMatch) {
+    if (error) {
+      callback(error);
+    } else {
+      callback(null, isMatch);
+    }
+  });
+};
 // routineSchema.post('save', function() {
 
 //     var doc = this;
