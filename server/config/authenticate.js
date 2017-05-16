@@ -31,12 +31,14 @@ exports.loginUser = function(req, res) {
   db.User.findOne({ name: username }, function(err, user) {
         //asume err can be in place of !user
         if (!user) {
+          console.log('user not found', user)
           res.sendStatus(404);
         } else {
           user.comparePassword(password, function(err,match){
             if (match) {
               exports.createSession(req, res, user);
             } else {
+              console.log('password not match', user)
               res.status(404).send(err);
             }
           });
