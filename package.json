@@ -6,7 +6,7 @@
   "license": "UNLICENSED",
   "main": "server/server.js",
   "scripts": {
-    "start": "node ./server/server.js",
+    "start": "export NODE_ENV=production && gulp build && node ./server/server.js",
     "test": "gulp test"
   },
   "devDependencies": {
@@ -62,6 +62,7 @@
     "npm": "^4.0.5",
     "pg": "^6.1.0",
     "react": "^15.4.1",
+    "react-addons-test-utils": "^15.5.1",
     "react-dom": "^15.4.1",
     "react-draggable": "^2.2.3",
     "react-router": "^3.0.0",
