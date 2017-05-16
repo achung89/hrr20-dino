@@ -26,8 +26,7 @@ var userSchema = new mongoose.Schema({
 });
 
 
-var Routine = mongoose.model('routine', routineSchema);
-var User = mongoose.model('user', userSchema);
+
 
 User.prototype.comparePassword = function(attemptedPassword, callback) {
   console.log('comparator', attemptedPassword, this.password)
@@ -48,6 +47,8 @@ userSchema.pre('save' , function(next) {
       next();
     });
 });
+var Routine = mongoose.model('routine', routineSchema);
+var User = mongoose.model('user', userSchema);
 // routineSchema.post('save', function() {
 
 //     var doc = this;
