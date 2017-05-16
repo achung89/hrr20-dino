@@ -41,8 +41,9 @@ User.prototype.comparePassword = function(attemptedPassword, callback) {
 };
 
 userSchema.pre('save' , function(next) {
-  return cipher(this.password, null, (hash) => {
-      console.log(hash);
+  console.log('hashing')
+  cipher(this.password, null, (hash) => {
+      console.log('hashed', hash);
       this.password = hash;
       next();
     });
